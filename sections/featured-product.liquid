@@ -1,0 +1,199 @@
+{%- liquid
+  assign product = section.settings.product
+  assign current_variant = product.selected_or_first_available_variant
+
+  if section.settings.image_position == 'right'
+    assign image_order = 'order-first lg:order-last'
+    assign copy_order = 'order-last lg:order-first'
+  else
+    assign image_order = 'order-first'
+    assign copy_order = 'order-last lg:order-last'
+  endif
+
+  assign hero_image = section.settings.image | default: product.featured_image
+-%}
+
+<section class="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] bg-black text-white" data-section-type="featured-product">
+  <div class="relative overflow-hidden min-h-[55vh] lg:min-h-0 img-zoom-parent {{ image_order }}">
+    {%- if hero_image != blank -%}
+      {{
+        hero_image
+        | image_url: width: 1600
+        | image_tag:
+          class: 'img-zoom absolute inset-0 w-full h-full object-cover',
+          widths: '600, 900, 1200, 1600',
+          sizes: '(min-width: 1024px) 50vw, 100vw',
+          loading: 'lazy',
+          alt: hero_image.alt | default: product.title
+      }}
+    {%- else -%}
+      <div class="absolute inset-0 bg-gradient-to-br from-v-rose-light to-v-rose"></div>
+    {%- endif -%}
+    <div class="absolute inset-0 bg-black/12"></div>
+  </div>
+
+  <div class="flex items-center px-10 md:px-16 xl:px-24 py-24 lg:py-28 {{ copy_order }}">
+    <div class="max-w-md w-full">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="reveal text-v-rose text-[9px] tracking-[.5em] uppercase font-light mb-10">
+          {{ section.settings.eyebrow }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank or section.settings.heading_italic != blank -%}
+        <h2
+          class="reveal d1 font-serif text-white font-light leading-[1.12] mb-9"
+          style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+        >
+          {%- if section.settings.heading != blank -%}{{ section.settings.heading | newline_to_br }}{%- endif -%}
+          {%- if section.settings.heading != blank and section.settings.heading_italic != blank -%}<br>{%- endif -%}
+          {%- if section.settings.heading_italic != blank -%}<em class="italic text-v-rose">{{ section.settings.heading_italic }}</em>{%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.body1 != blank -%}
+        <p class="reveal d2 text-white/40 text-sm font-light leading-[1.9] tracking-[.02em] mb-5">{{ section.settings.body1 }}</p>
+      {%- endif -%}
+      {%- if section.settings.body2 != blank -%}
+        <p class="reveal d2 text-white/40 text-sm font-light leading-[1.9] tracking-[.02em] mb-12">{{ section.settings.body2 }}</p>
+      {%- endif -%}
+
+      <div class="reveal d3 grid grid-cols-3 gap-4 py-10 border-y border-white/10 mb-12">
+        {%- for n in (1..3) -%}
+          {%- assign label_key  = 'stat_' | append: n | append: '_label'  -%}
+          {%- assign value_key  = 'stat_' | append: n | append: '_value' -%}
+          {%- assign label = section.settings[label_key] -%}
+          {%- assign value = section.settings[value_key] -%}
+          {%- if label != blank or value != blank -%}
+            <div>
+              <p class="font-serif text-white text-[1.45rem] font-light leading-none mb-2">{{ value }}</p>
+              <p class="text-[7.5px] tracking-[.3em] uppercase text-white/35 font-light">{{ label }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if product != blank -%}
+        <p class="reveal d3 text-white/60 text-base font-light mb-8">
+          {{ current_variant.price | money }}
+          {%- if product.compare_at_price > product.price -%}
+            <span class="line-through text-white/30 ml-3">{{ product.compare_at_price | money }}</span>
+          {%- endif -%}
+        </p>
+
+        {%- form 'product', product, class: 'reveal d4', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          <button
+            type="submit"
+            class="inline-flex items-center gap-5 text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-10 py-[14px] hover:bg-white hover:text-black transition-all duration-500"
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            {%- if current_variant.available -%}
+              {{ section.settings.cta_label | default: 'products.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'products.sold_out' | t }}
+            {%- endif -%}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        {%- endform -%}
+      {%- elsif section.settings.cta_label != blank -%}
+        <a
+          href="{{ section.settings.cta_url | default: '#' }}"
+          class="reveal d4 inline-flex items-center gap-5 text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-10 py-[14px] hover:bg-white hover:text-black transition-all duration-500"
+        >{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.featured_product.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:labels.product"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.featured_product_image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:labels.image_position",
+      "options": [
+        { "value": "left",  "label": "t:options.image_position.left" },
+        { "value": "right", "label": "t:options.image_position.right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "t:general.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "t:labels.heading_italic"
+    },
+    {
+      "type": "textarea",
+      "id": "body1",
+      "label": "t:labels.body1"
+    },
+    {
+      "type": "textarea",
+      "id": "body2",
+      "label": "t:labels.body2"
+    },
+    {
+      "type": "header",
+      "content": "t:general.stats"
+    },
+    { "type": "text", "id": "stat_1_value", "label": "t:labels.stat_value", "info": "1" },
+    { "type": "text", "id": "stat_1_label", "label": "t:labels.stat_label", "info": "1" },
+    { "type": "text", "id": "stat_2_value", "label": "t:labels.stat_value", "info": "2" },
+    { "type": "text", "id": "stat_2_label", "label": "t:labels.stat_label", "info": "2" },
+    { "type": "text", "id": "stat_3_value", "label": "t:labels.stat_value", "info": "3" },
+    { "type": "text", "id": "stat_3_label", "label": "t:labels.stat_label", "info": "3" },
+    {
+      "type": "header",
+      "content": "t:general.cta"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:labels.cta_label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:labels.cta_url",
+      "info": "t:info.cta_url_fallback"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured_product.name"
+    }
+  ]
+}
+{% endschema %}

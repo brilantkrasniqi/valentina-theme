@@ -1,0 +1,269 @@
+{%- liquid
+  assign bg_class = 'bg-v-cream'
+  assign text_color = 'text-black'
+  assign body_color = 'text-black/45'
+  assign eyebrow_color = 'text-v-rose'
+  assign heading_italic_color = 'text-v-rose'
+  case section.settings.background
+    when 'black'
+      assign bg_class = 'bg-black'
+      assign text_color = 'text-white'
+      assign body_color = 'text-white/40'
+      assign eyebrow_color = 'text-v-rose'
+      assign heading_italic_color = 'text-v-rose'
+    when 'pink'
+      assign bg_class = 'bg-[#f5ece9]'
+      assign text_color = 'text-black'
+      assign body_color = 'text-black/55'
+      assign eyebrow_color = 'text-v-rose-dark'
+      assign heading_italic_color = 'text-v-rose-dark'
+    when 'off-white'
+      assign bg_class = 'bg-[#f7f3f1]'
+      assign text_color = 'text-black'
+      assign body_color = 'text-black/45'
+      assign eyebrow_color = 'text-v-rose'
+      assign heading_italic_color = 'text-v-rose'
+  endcase
+
+  if section.settings.image_position == 'right'
+    assign image_order = 'order-first lg:order-last'
+    assign copy_order = 'order-last lg:order-first'
+  else
+    assign image_order = 'order-first'
+    assign copy_order = 'order-last lg:order-last'
+  endif
+-%}
+
+<section
+  class="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] {{ bg_class }}"
+  data-section-type="editorial-split"
+>
+  <div class="relative overflow-hidden min-h-[55vh] lg:min-h-0 img-zoom-parent {{ image_order }}">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 1600
+        | image_tag:
+          class: 'img-zoom absolute inset-0 w-full h-full object-cover',
+          widths: '600, 900, 1200, 1600',
+          sizes: '(min-width: 1024px) 50vw, 100vw',
+          loading: 'lazy',
+          alt: section.settings.image.alt | default: section.settings.heading
+      }}
+    {%- else -%}
+      <div class="absolute inset-0 bg-gradient-to-br from-v-rose-light to-v-rose"></div>
+    {%- endif -%}
+    {%- if section.settings.background == 'black' -%}
+      <div class="absolute inset-0 bg-black/12"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="flex items-center px-10 md:px-16 xl:px-24 py-24 lg:py-28 {{ copy_order }}">
+    <div class="max-w-md">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="reveal {{ eyebrow_color }} text-[9px] tracking-[.5em] uppercase font-light mb-10">
+          {{ section.settings.eyebrow }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank or section.settings.heading_italic != blank -%}
+        <h2
+          class="reveal d1 font-serif {{ text_color }} font-light leading-[1.12] mb-9"
+          style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+        >
+          {%- if section.settings.heading != blank -%}{{ section.settings.heading | newline_to_br }}{%- endif -%}
+          {%- if section.settings.heading != blank and section.settings.heading_italic != blank -%}<br>{%- endif -%}
+          {%- if section.settings.heading_italic != blank -%}<em class="italic {{ heading_italic_color }}">{{ section.settings.heading_italic }}</em>{%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.body1 != blank -%}
+        <p class="reveal d2 {{ body_color }} text-sm font-light leading-[1.9] tracking-[.02em] mb-5">
+          {{ section.settings.body1 }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.body2 != blank -%}
+        <p class="reveal d2 {{ body_color }} text-sm font-light leading-[1.9] tracking-[.02em] mb-14">
+          {{ section.settings.body2 }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.pillars_enabled -%}
+        <div class="reveal d3 grid grid-cols-2 gap-8 mb-12">
+          {%- if section.settings.pillar_1_label != blank or section.settings.pillar_1_value != blank -%}
+            <div>
+              <p class="text-black/30 text-[8px] tracking-[.32em] uppercase mb-2">{{ section.settings.pillar_1_label }}</p>
+              <p class="font-serif {{ text_color }} text-[1.15rem] font-light leading-snug">{{ section.settings.pillar_1_value | newline_to_br }}</p>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.pillar_2_label != blank or section.settings.pillar_2_value != blank -%}
+            <div class="border-l border-black/10 pl-8">
+              <p class="text-black/30 text-[8px] tracking-[.32em] uppercase mb-2">{{ section.settings.pillar_2_label }}</p>
+              <p class="font-serif {{ text_color }} text-[1.15rem] font-light leading-snug">{{ section.settings.pillar_2_value | newline_to_br }}</p>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        {%- case section.settings.cta_style -%}
+          {%- when 'button-rose' -%}
+            <a
+              href="{{ section.settings.cta_url | default: '#' }}"
+              class="reveal d4 inline-flex items-center gap-5 text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-10 py-[14px] hover:bg-white hover:text-black transition-all duration-500"
+            >
+              {{ section.settings.cta_label }}
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+          {%- when 'button-black' -%}
+            <a
+              href="{{ section.settings.cta_url | default: '#' }}"
+              class="reveal d4 inline-flex items-center gap-5 text-white text-[10px] tracking-[.38em] uppercase font-light bg-black px-10 py-[14px] hover:bg-v-rose transition-all duration-500"
+            >{{ section.settings.cta_label }}</a>
+          {%- else -%}
+            <a
+              href="{{ section.settings.cta_url | default: '#' }}"
+              class="reveal d3 ul-hover inline-flex items-center gap-4 {{ text_color }} text-[10px] tracking-[.38em] uppercase font-light hover:text-v-rose transition-colors duration-300"
+            >
+              {{ section.settings.cta_label }}
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+        {%- endcase -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.editorial_split.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:labels.image_position",
+      "options": [
+        { "value": "left",  "label": "t:options.image_position.left" },
+        { "value": "right", "label": "t:options.image_position.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "t:labels.background",
+      "options": [
+        { "value": "cream",     "label": "t:options.background.cream" },
+        { "value": "black",     "label": "t:options.background.black" },
+        { "value": "pink",      "label": "t:options.background.pink" },
+        { "value": "off-white", "label": "t:options.background.off_white" }
+      ],
+      "default": "cream"
+    },
+    {
+      "type": "header",
+      "content": "t:general.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "t:labels.heading_italic"
+    },
+    {
+      "type": "textarea",
+      "id": "body1",
+      "label": "t:labels.body1"
+    },
+    {
+      "type": "textarea",
+      "id": "body2",
+      "label": "t:labels.body2"
+    },
+    {
+      "type": "header",
+      "content": "t:general.pillars"
+    },
+    {
+      "type": "checkbox",
+      "id": "pillars_enabled",
+      "label": "t:labels.show_pillars",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "pillar_1_label",
+      "label": "t:labels.pillar_label",
+      "info": "1"
+    },
+    {
+      "type": "textarea",
+      "id": "pillar_1_value",
+      "label": "t:labels.pillar_value",
+      "info": "1"
+    },
+    {
+      "type": "text",
+      "id": "pillar_2_label",
+      "label": "t:labels.pillar_label",
+      "info": "2"
+    },
+    {
+      "type": "textarea",
+      "id": "pillar_2_value",
+      "label": "t:labels.pillar_value",
+      "info": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:general.cta"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:labels.cta_label"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:labels.cta_url"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "t:labels.cta_style",
+      "options": [
+        { "value": "arrow-link",   "label": "t:options.cta_style.arrow_link" },
+        { "value": "button-rose",  "label": "t:options.cta_style.button_rose" },
+        { "value": "button-black", "label": "t:options.cta_style.button_black" }
+      ],
+      "default": "arrow-link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.editorial_split.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "primary_nav": "Primary navigation",
+      "secondary_nav": "Secondary navigation",
+      "mobile_nav": "Mobile navigation",
+      "menu": "Menu",
+      "close": "Close"
+    },
+    "footer": {
+      "rights_reserved": "All rights reserved."
+    },
+    "localization": {
+      "language": "Language",
+      "country": "Country / Region"
+    }
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post",
+    "comment_form_title": "Add a comment"
+  },
+  "cart": {
+    "title": "Cart",
+    "checkout": "Checkout",
+    "view_cart": "View Cart",
+    "update": "Update",
+    "remove": "Remove",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity",
+    "subtotal": "Subtotal",
+    "shipping_note": "Shipping & taxes calculated at checkout.",
+    "empty_title": "Your cart awaits.",
+    "empty_body": "Begin your ritual — every product is a quiet act of devotion.",
+    "start_shopping": "Discover the Collection"
+  },
+  "customers": {
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Collections"
+  },
+  "products": {
+    "shop_now": "Shop Now",
+    "add_to_cart": "Add to Cart",
+    "sold_out": "Sold Out",
+    "badge": {
+      "bestseller": "Bestseller",
+      "new": "New",
+      "sale": "Sale"
+    },
+    "placeholder": {
+      "category": "Skincare",
+      "title": "Product"
+    }
+  },
+  "newsletter": {
+    "subscribe": "Subscribe",
+    "email": "Email",
+    "email_placeholder": "Your email address",
+    "success": "Thank you. You're on the list."
+  },
+  "sections": {
+    "hero": {
+      "scroll": "Scroll"
+    },
+    "marquee": {
+      "aria_label": "Brand promises",
+      "placeholder": "Luxury Skincare"
+    },
+    "lifestyle": {
+      "follow": "Follow Us"
+    }
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout"
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search articles, pages, or products",
+    "submit": "Search",
+    "no_results_html": "No results found for {{ terms }}",
+    "results_for_html": "{{ count }} results found for {{ terms }}"
+  }
+}

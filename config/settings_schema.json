@@ -1,0 +1,114 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Valentina",
+    "theme_version": "1.0.0",
+    "theme_author": "Valentina",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:general.typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:general.fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "default": "cormorant_n3",
+        "label": "t:labels.font_heading",
+        "info": "t:info.font_heading"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "jost_n4",
+        "label": "t:labels.font_body"
+      }
+    ]
+  },
+  {
+    "name": "t:general.layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "t:labels.page_width",
+        "options": [
+          {
+            "value": "90rem",
+            "label": "t:options.page_width.narrow"
+          },
+          {
+            "value": "110rem",
+            "label": "t:options.page_width.wide"
+          }
+        ],
+        "default": "110rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.page_margin",
+        "default": 24
+      }
+    ]
+  },
+  {
+    "name": "t:general.colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "default": "#FAF8F5",
+        "label": "t:labels.background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_color",
+        "default": "#1A1A1A",
+        "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "color_rose",
+        "default": "#DEAAA6",
+        "label": "t:labels.color_rose"
+      },
+      {
+        "type": "color",
+        "id": "color_rose_light",
+        "default": "#EDD5D2",
+        "label": "t:labels.color_rose_light"
+      },
+      {
+        "type": "color",
+        "id": "color_rose_dark",
+        "default": "#C4857F",
+        "label": "t:labels.color_rose_dark"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "default": "#FAF8F5",
+        "label": "t:labels.color_cream"
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.input_corner_radius",
+        "default": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,185 @@
+{
+  "general": {
+    "404": "Not found",
+    "article": "Article",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Cart",
+    "collection": "Collection",
+    "collections": "Collections",
+    "collection_card": "Collection card",
+    "collections_grid": "Collections grid",
+    "colors": "Colors",
+    "column": "Column",
+    "content": "Content",
+    "cta": "Call to action",
+    "custom_section": "Custom section",
+    "fonts": "Fonts",
+    "footer": "Footer",
+    "group": "Group",
+    "header": "Header",
+    "layout": "Layout",
+    "localization": "Localization",
+    "main": "Main",
+    "menu": "Menu",
+    "page": "Page",
+    "password": "Password",
+    "pillars": "Pillars",
+    "primary": "Primary",
+    "product": "Product",
+    "row": "Row",
+    "search": "Search",
+    "secondary": "Secondary",
+    "section": "Section",
+    "settings": "Settings",
+    "sidebar": "Sidebar",
+    "stats": "Stats",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typography"
+  },
+  "labels": {
+    "alignment": "Alignment",
+    "author": "Author",
+    "background": "Background",
+    "background_image": "Background image",
+    "body": "Body copy",
+    "body1": "Body paragraph 1",
+    "body2": "Body paragraph 2",
+    "brand_blurb": "Brand description",
+    "button_label": "Button label",
+    "collection": "Collection",
+    "color_rose": "Rose",
+    "color_rose_light": "Rose (light)",
+    "color_rose_dark": "Rose (dark)",
+    "color_cream": "Cream",
+    "cta_label": "Button label",
+    "cta_style": "Button style",
+    "cta_url": "Button link",
+    "eyebrow": "Eyebrow",
+    "font_heading": "Heading font",
+    "font_body": "Body font",
+    "footnote": "Footnote",
+    "foreground": "Foreground",
+    "grid_gap": "Grid spacing",
+    "grid_item_width": "Grid item width",
+    "heading": "Heading",
+    "heading_italic": "Heading (italic)",
+    "image": "Image",
+    "image_position": "Image position",
+    "input_corner_radius": "Input corner radius",
+    "instagram_handle": "Instagram handle",
+    "instagram_url": "Instagram URL",
+    "layout_direction": "Layout direction",
+    "location": "Location",
+    "logo": "Logo",
+    "menu": "Menu",
+    "menu_left": "Left menu",
+    "menu_right": "Right menu",
+    "customer_account_menu": "Customer account menu",
+    "number": "Number",
+    "padding": "Padding",
+    "page_margin": "Page margin",
+    "page_width": "Page width",
+    "pillar_label": "Pillar label",
+    "pillar_value": "Pillar value",
+    "policy_menu": "Policy menu",
+    "product": "Product",
+    "products_to_show": "Products to show",
+    "quote": "Quote",
+    "show_pillars": "Show pillars",
+    "show_localization": "Show language and currency selector",
+    "show_payment_icons": "Show payment icons",
+    "show_scroll_cue": "Show scroll cue",
+    "speed": "Speed",
+    "stat_label": "Stat label",
+    "stat_value": "Stat value",
+    "subheading": "Subheading",
+    "tagline": "Tagline",
+    "text": "Text",
+    "text_style": "Text style",
+    "title": "Title"
+  },
+  "info": {
+    "font_heading": "Cormorant Garamond is loaded from Google Fonts for an exact brand match. Choose a Shopify font here as fallback.",
+    "featured_product_image": "Optional override. Defaults to the selected product's featured image.",
+    "cta_url_fallback": "Used when no product is selected."
+  },
+  "options": {
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right"
+    },
+    "background": {
+      "cream": "Cream",
+      "black": "Black",
+      "pink": "Pink",
+      "off_white": "Off-white"
+    },
+    "cta_style": {
+      "arrow_link": "Arrow link",
+      "button_rose": "Rose button",
+      "button_black": "Black button"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "image_position": {
+      "left": "Left",
+      "right": "Right"
+    },
+    "page_width": {
+      "narrow": "Narrow",
+      "wide": "Wide"
+    },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal text"
+    }
+  },
+  "sections": {
+    "hero": {
+      "name": "Hero"
+    },
+    "marquee": {
+      "name": "Marquee",
+      "phrase": "Phrase"
+    },
+    "manifesto": {
+      "name": "Manifesto"
+    },
+    "editorial_split": {
+      "name": "Editorial split"
+    },
+    "featured_collection": {
+      "name": "Featured collection"
+    },
+    "featured_product": {
+      "name": "Featured product"
+    },
+    "ritual_steps": {
+      "name": "Ritual steps",
+      "step": "Step"
+    },
+    "quote_banner": {
+      "name": "Quote banner"
+    },
+    "testimonials": {
+      "name": "Testimonials",
+      "testimonial": "Testimonial"
+    },
+    "lifestyle_grid": {
+      "name": "Lifestyle grid"
+    },
+    "newsletter": {
+      "name": "Newsletter"
+    }
+  }
+}

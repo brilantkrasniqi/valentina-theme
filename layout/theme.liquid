@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {%- # Inlined CSS variables (brand colors, fonts, page width) -%}
+    {% render 'css-variables' %}
+
+    {%- # Preconnect for Shopify fonts and Google fonts (Cormorant Garamond is loaded from Google Fonts because it isn't in Shopify's font library) -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap"
+      rel="stylesheet">
+
+    {%- unless settings.type_body_font.system? -%}
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- endunless -%}
+
+    {%- # Critical CSS (reset, brand utilities, animations) -%}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {%- # Splide carousel CSS (used by marquee + future sliders) -%}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
+
+    {%- # Tailwind CDN with brand color + font configuration. CDN build is fine for theme prototyping; can be replaced with a compiled build later. -%}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'v-rose':       '{{ settings.color_rose }}',
+              'v-rose-light': '{{ settings.color_rose_light }}',
+              'v-rose-dark':  '{{ settings.color_rose_dark }}',
+              'v-cream':      '{{ settings.color_cream }}',
+            },
+            fontFamily: {
+              serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+              sans:  ['{{ settings.type_body_font.family }}', '"{{ settings.type_body_font.fallback_families }}"', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    {%- # Splide JS + auto-scroll extension (deferred so it doesn't block paint) -%}
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js" defer></script>
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="bg-v-cream text-black">
+    <a href="#MainContent" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-black focus:text-white focus:px-4 focus:py-2 focus:z-[100]">
+      {{ 'general.accessibility.skip_to_content' | t }}
+    </a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% render 'cart-drawer' %}
+
+    <script>
+      (function () {
+        if (typeof window === 'undefined') return;
+
+        // ── Scroll reveal ──────────────────────────────────────────────
+        var supportsIO = 'IntersectionObserver' in window;
+        if (supportsIO) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                io.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
+
+          var observe = function () {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
+              io.observe(el);
+            });
+          };
+
+          if (document.readyState !== 'loading') {
+            observe();
+          } else {
+            document.addEventListener('DOMContentLoaded', observe);
+          }
+
+          // Watch for sections injected by the theme editor
+          var mo = new MutationObserver(observe);
+          mo.observe(document.body, { childList: true, subtree: true });
+        } else {
+          // No IO support: just reveal everything
+          document.documentElement.classList.add('no-io');
+          document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.reveal').forEach(function (el) {
+              el.classList.add('visible');
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

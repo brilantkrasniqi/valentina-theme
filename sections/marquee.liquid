@@ -1,0 +1,140 @@
+<section class="bg-v-rose py-[10px] overflow-hidden select-none" data-section-type="marquee" data-section-id="{{ section.id }}">
+  <div
+    class="splide marquee-splide"
+    data-marquee
+    role="group"
+    aria-label="{{ 'sections.marquee.aria_label' | t }}"
+  >
+    <div class="splide__track">
+      <ul class="splide__list">
+        {%- for block in section.blocks -%}
+          <li class="splide__slide flex items-center" {{ block.shopify_attributes }}>
+            <span class="text-white text-[9px] tracking-[.45em] uppercase font-light mx-10 whitespace-nowrap">
+              {{ block.settings.text }}
+            </span>
+            <span class="text-white/40 mx-1">·</span>
+          </li>
+        {%- else -%}
+          <li class="splide__slide flex items-center">
+            <span class="text-white text-[9px] tracking-[.45em] uppercase font-light mx-10 whitespace-nowrap">
+              {{ 'sections.marquee.placeholder' | t }}
+            </span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+
+  {%- # CSS-only fallback for users without JS — visually hidden once Splide initialises -%}
+  <noscript>
+    <div class="marquee-track flex whitespace-nowrap mt-[-44px]" aria-hidden="true">
+      {%- for i in (1..2) -%}
+        <div class="flex shrink-0 items-center">
+          {%- for block in section.blocks -%}
+            <span class="text-white text-[9px] tracking-[.45em] uppercase font-light mx-10">{{ block.settings.text }}</span>
+            <span class="text-white/40 mx-1">·</span>
+          {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </noscript>
+</section>
+
+{% stylesheet %}
+  .marquee-splide .splide__track {
+    overflow: hidden;
+  }
+  .marquee-splide .splide__slide {
+    width: auto;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    function init() {
+      if (typeof window.Splide === 'undefined') return false;
+      var hasAutoScroll = window.splide && window.splide.Extensions && window.splide.Extensions.AutoScroll;
+      var roots = document.querySelectorAll('[data-marquee]');
+      roots.forEach(function (root) {
+        if (root.dataset.splideInitialised === '1') return;
+        root.dataset.splideInitialised = '1';
+
+        var instance = new Splide(root, {
+          type: 'loop',
+          drag: 'free',
+          focus: 'center',
+          perPage: 1,
+          autoWidth: true,
+          arrows: false,
+          pagination: false,
+          gap: 0,
+          clones: 6,
+          autoScroll: { speed: 1, pauseOnHover: false, pauseOnFocus: false },
+        });
+
+        if (hasAutoScroll) {
+          instance.mount(window.splide.Extensions);
+        } else {
+          instance.mount();
+        }
+      });
+      return true;
+    }
+
+    if (!init()) {
+      document.addEventListener('DOMContentLoaded', function () {
+        if (init()) return;
+        var poll = setInterval(function () {
+          if (init()) clearInterval(poll);
+        }, 200);
+        setTimeout(function () { clearInterval(poll); }, 6000);
+      });
+    }
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.marquee.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:labels.speed",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "default": 28
+    }
+  ],
+  "blocks": [
+    {
+      "type": "phrase",
+      "name": "t:sections.marquee.phrase",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "Luxury Skincare"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.marquee.name",
+      "blocks": [
+        { "type": "phrase", "settings": { "text": "Luxury Skincare" } },
+        { "type": "phrase", "settings": { "text": "Crafted with Intention" } },
+        { "type": "phrase", "settings": { "text": "Rooted in Purpose" } },
+        { "type": "phrase", "settings": { "text": "Feel the Ritual" } },
+        { "type": "phrase", "settings": { "text": "Paris Inspired" } },
+        { "type": "phrase", "settings": { "text": "Dermatologically Tested" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

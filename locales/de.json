@@ -1,0 +1,109 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Seite nicht gefunden.",
+    "back_to_shopping": "Zurück zum Shop"
+  },
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Zum Inhalt springen",
+      "primary_nav": "Hauptnavigation",
+      "secondary_nav": "Zweitnavigation",
+      "mobile_nav": "Mobile Navigation",
+      "menu": "Menü",
+      "close": "Schließen"
+    },
+    "footer": {
+      "rights_reserved": "Alle Rechte vorbehalten."
+    },
+    "localization": {
+      "language": "Sprache",
+      "country": "Land / Region"
+    }
+  },
+  "blog": {
+    "article_comments": "Kommentare",
+    "article_metadata_html": "{{ date }} von {{ author }}",
+    "comment_form_body": "Kommentar",
+    "comment_form_email": "E-Mail",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Senden",
+    "comment_form_title": "Kommentar hinzufügen"
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "checkout": "Zur Kasse",
+    "view_cart": "Warenkorb ansehen",
+    "update": "Aktualisieren",
+    "remove": "Entfernen",
+    "increase": "Menge erhöhen",
+    "decrease": "Menge verringern",
+    "subtotal": "Zwischensumme",
+    "shipping_note": "Versand & Steuern werden an der Kasse berechnet.",
+    "empty_title": "Dein Warenkorb wartet.",
+    "empty_body": "Beginne dein Ritual — jedes Produkt ist eine stille Geste der Hingabe.",
+    "start_shopping": "Kollektion entdecken"
+  },
+  "customers": {
+    "login": {
+      "email": "E-Mail",
+      "password": "Passwort",
+      "submit": "Anmelden",
+      "title": "Anmelden"
+    }
+  },
+  "collections": {
+    "title": "Kollektionen"
+  },
+  "products": {
+    "shop_now": "Jetzt kaufen",
+    "add_to_cart": "In den Warenkorb",
+    "sold_out": "Ausverkauft",
+    "badge": {
+      "bestseller": "Bestseller",
+      "new": "Neu",
+      "sale": "Sale"
+    },
+    "placeholder": {
+      "category": "Hautpflege",
+      "title": "Produkt"
+    }
+  },
+  "newsletter": {
+    "subscribe": "Abonnieren",
+    "email": "E-Mail",
+    "email_placeholder": "Deine E-Mail-Adresse",
+    "success": "Vielen Dank. Du bist auf der Liste."
+  },
+  "sections": {
+    "hero": {
+      "scroll": "Scrollen"
+    },
+    "marquee": {
+      "aria_label": "Markenversprechen",
+      "placeholder": "Luxuriöse Hautpflege"
+    },
+    "lifestyle": {
+      "follow": "Folge uns"
+    }
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Zu Apple Wallet hinzufügen",
+    "card": "Geschenkkarte",
+    "expired": "Diese Geschenkkarte ist abgelaufen",
+    "expires_on": "Gültig bis {{ expires_on }}",
+    "use_at_checkout": "Diese Geschenkkarte an der Kasse verwenden"
+  },
+  "password": {
+    "title": "Dieser Shop ist privat",
+    "password": "Passwort",
+    "enter": "Eintreten"
+  },
+  "search": {
+    "title": "Suche",
+    "placeholder": "Artikel, Seiten oder Produkte suchen",
+    "submit": "Suchen",
+    "no_results_html": "Keine Ergebnisse für {{ terms }}",
+    "results_for_html": "{{ count }} Ergebnisse für {{ terms }}"
+  }
+}

@@ -1,0 +1,121 @@
+<section class="py-32 px-6 md:px-10 bg-v-cream" data-section-type="testimonials">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="text-center mb-20">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="reveal text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-5">
+          {{ section.settings.eyebrow }}
+        </p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank or section.settings.heading_italic != blank -%}
+        <h2
+          class="reveal d1 font-serif text-black font-light"
+          style="font-size: clamp(2.2rem, 5vw, 4rem);"
+        >
+          {%- if section.settings.heading != blank -%}{{ section.settings.heading }} {%- endif -%}
+          {%- if section.settings.heading_italic != blank -%}<em class="italic text-v-rose">{{ section.settings.heading_italic }}</em>{%- endif -%}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign delay = ''
+          if forloop.index == 1
+            assign delay = 'd1'
+          elsif forloop.index == 2
+            assign delay = 'd2'
+          elsif forloop.index == 3
+            assign delay = 'd3'
+          endif
+          assign show_divider = false
+          unless forloop.last
+            assign show_divider = true
+          endunless
+        -%}
+        <div
+          class="reveal {{ delay }} relative md:px-6 {% if show_divider %}md:border-r md:border-black/8{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="font-serif text-v-rose text-5xl font-light leading-none mb-6">&ldquo;</div>
+          <p class="font-serif text-black text-lg md:text-[1.3rem] font-light italic leading-[1.6] mb-7">
+            {{ block.settings.quote }}
+          </p>
+          <p class="text-black text-[10px] tracking-[.36em] uppercase font-light mb-1">
+            {{ block.settings.author }}
+          </p>
+          {%- if block.settings.location != blank -%}
+            <p class="text-black/35 text-[9px] tracking-[.36em] uppercase font-light">
+              {{ block.settings.location }}
+            </p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.testimonials.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Words From Our Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Stories of"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "t:labels.heading_italic",
+      "default": "transformation."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "t:sections.testimonials.testimonial",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:labels.quote",
+          "default": "Valentina is the first skincare line that feels like poetry. Six weeks in, my skin is calmer, brighter — but more than that, my mornings feel sacred again."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "t:labels.author",
+          "default": "Sophia M."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "t:labels.location",
+          "default": "Paris, France"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.testimonials.name",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

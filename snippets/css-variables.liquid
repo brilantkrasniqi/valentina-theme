@@ -1,0 +1,45 @@
+{% doc %}
+  Outputs the global CSS custom properties used across the theme.
+
+  Reads from `settings` (config/settings_schema.json) so merchants can override
+  brand colors, page width, and font choices from the theme editor.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{% style %}
+  {% # Loads all font variations with display: swap %}
+  {% unless settings.type_header_font.system? %}
+    {{ settings.type_header_font | font_face: font_display: 'swap' }}
+    {{ settings.type_header_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {% endunless %}
+
+  {% unless settings.type_body_font.system? %}
+    {{ settings.type_body_font | font_face: font_display: 'swap' }}
+    {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+    {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {% endunless %}
+
+  :root {
+    --font-heading--family: "Cormorant Garamond", {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }}, Georgia, serif;
+    --font-heading--style: {{ settings.type_header_font.style }};
+    --font-heading--weight: {{ settings.type_header_font.weight }};
+
+    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }}, system-ui, sans-serif;
+    --font-body--style: {{ settings.type_body_font.style }};
+    --font-body--weight: {{ settings.type_body_font.weight }};
+
+    --page-width: {{ settings.max_page_width }};
+    --page-margin: {{ settings.min_page_margin }}px;
+
+    --color-background: {{ settings.background_color }};
+    --color-foreground: {{ settings.foreground_color }};
+    --color-rose: {{ settings.color_rose }};
+    --color-rose-light: {{ settings.color_rose_light }};
+    --color-rose-dark: {{ settings.color_rose_dark }};
+    --color-cream: {{ settings.color_cream }};
+
+    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+  }
+{% endstyle %}

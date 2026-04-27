@@ -1,0 +1,66 @@
+<section class="py-36 px-6 md:px-10 bg-v-cream" data-section-type="manifesto">
+  <div class="max-w-3xl mx-auto text-center">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="reveal text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-12">
+        {{ section.settings.eyebrow }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank or section.settings.heading_italic != blank -%}
+      <h2
+        class="reveal d1 font-serif text-black font-light leading-[1.1] mb-14"
+        style="font-size: clamp(2.2rem, 5.5vw, 4.25rem);"
+      >
+        {%- if section.settings.heading != blank -%}{{ section.settings.heading | newline_to_br }}{%- endif -%}
+        {%- if section.settings.heading != blank and section.settings.heading_italic != blank -%}<br>{%- endif -%}
+        {%- if section.settings.heading_italic != blank -%}<em class="italic text-v-rose">{{ section.settings.heading_italic }}</em>{%- endif -%}
+      </h2>
+    {%- endif -%}
+
+    <div class="reveal d2 w-14 h-px bg-v-rose mx-auto mb-14"></div>
+
+    {%- if section.settings.body != blank -%}
+      <p class="reveal d3 text-black/50 text-[15px] md:text-base font-light leading-[1.9] max-w-xl mx-auto tracking-[.015em]">
+        {{ section.settings.body }}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.manifesto.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Our Philosophy"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Skincare is not\njust a routine."
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "t:labels.heading_italic",
+      "default": "It is a ritual."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "t:labels.body",
+      "default": "Valentina was born from the belief that beauty is a feeling — not a formula. Each creation is a love letter to your skin: sensory, considered, deeply intentional."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.manifesto.name"
+    }
+  ]
+}
+{% endschema %}

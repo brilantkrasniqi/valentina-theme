@@ -1,0 +1,309 @@
+/** Critical CSS for the theme. This file is included on every page. */
+
+/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html:has(dialog[scroll-lock][open], details[scroll-lock][open], dialog.cart-drawer[open]) {
+  overflow: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+input,
+textarea,
+select {
+  border-radius: var(--style-border-radius-inputs);
+}
+
+select {
+  background-color: var(--color-background);
+  color: currentcolor;
+}
+
+dialog {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p:empty {
+  display: none;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):first-child,
+:empty:first-child + :where(p, h1, h2, h3, h4, h5, h6) {
+  margin-block-start: 0;
+}
+
+:is(p, h1, h2, h3, h4, h5, h6):last-child,
+:where(p, h1, h2, h3, h4, h5, h6) + :has(+ :empty:last-child) {
+  margin-block-end: 0;
+}
+
+/* ==========================================================================
+   Theme styles
+   ========================================================================== */
+
+body {
+  font-family: var(--font-body--family);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* ==========================================================================
+   Custom scrollbar
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-rose);
+  border-radius: 10px;
+}
+
+/* ==========================================================================
+   Section grid utilities (full-width vs constrained)
+   ========================================================================== */
+.shopify-section {
+  --content-width: min(
+    calc(var(--page-width) - var(--page-margin) * 2),
+    calc(100% - var(--page-margin) * 2)
+  );
+  --content-margin: minmax(var(--page-margin), 1fr);
+  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.shopify-section.shopify-section--grid {
+  display: grid;
+  grid-template-columns: var(--content-grid);
+}
+
+.shopify-section.shopify-section--grid > * {
+  grid-column: 2;
+}
+
+.shopify-section.shopify-section--grid > .full-width {
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   Brand utilities
+   ========================================================================== */
+
+.font-serif {
+  font-family: var(--font-heading--family);
+}
+
+.font-sans {
+  font-family: var(--font-body--family);
+}
+
+/* Image hover-zoom container */
+.img-zoom-parent {
+  overflow: hidden;
+}
+.img-zoom {
+  transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-zoom-parent:hover .img-zoom,
+.img-zoom:hover {
+  transform: scale(1.04);
+}
+
+/* Underline-on-hover link */
+.ul-hover {
+  position: relative;
+}
+.ul-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.4s ease;
+}
+.ul-hover:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Hero load-in animation
+   ========================================================================== */
+@keyframes heroUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-item {
+  animation: heroUp 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.h-d0 { animation-delay: 0.15s; }
+.h-d1 { animation-delay: 0.45s; }
+.h-d2 { animation-delay: 0.75s; }
+.h-d3 { animation-delay: 1s; }
+
+/* ==========================================================================
+   Scroll reveal (toggled by IntersectionObserver in layout)
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+.d3 { transition-delay: 0.32s; }
+.d4 { transition-delay: 0.44s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .hero-item,
+  .img-zoom {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Marquee fallback (CSS-only) for when JS / Splide isn't ready
+   ========================================================================== */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+
+/* ==========================================================================
+   Hero gradient overlay
+   ========================================================================== */
+.hero-grad {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.22) 0%,
+    rgba(0, 0, 0, 0.04) 42%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+/* ==========================================================================
+   Hamburger bars
+   ========================================================================== */
+.ham-bar {
+  display: block;
+  width: 1.25rem;
+  height: 1px;
+  background: #fff;
+  transition: background 0.3s ease;
+}
+
+/* ==========================================================================
+   Float animation (scroll cue)
+   ========================================================================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+.float {
+  animation: float 2.2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Cart drawer
+   ========================================================================== */
+dialog.cart-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  margin-left: auto;
+  width: min(420px, 100vw);
+  height: 100svh;
+  max-height: 100svh;
+  max-width: 100vw;
+  border: 0;
+  padding: 0;
+  background: var(--color-cream);
+  color: #000;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+dialog.cart-drawer[open] {
+  transform: translateX(0);
+}
+dialog.cart-drawer::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+dialog.cart-drawer[open]::backdrop {
+  opacity: 1;
+}

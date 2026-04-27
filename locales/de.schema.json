@@ -1,0 +1,185 @@
+{
+  "general": {
+    "404": "Nicht gefunden",
+    "article": "Artikel",
+    "block": "Block",
+    "blog": "Blog",
+    "cart": "Warenkorb",
+    "collection": "Kollektion",
+    "collections": "Kollektionen",
+    "collection_card": "Kollektionskarte",
+    "collections_grid": "Kollektionsraster",
+    "colors": "Farben",
+    "column": "Spalte",
+    "content": "Inhalt",
+    "cta": "Call-to-Action",
+    "custom_section": "Benutzerdefinierte Sektion",
+    "fonts": "Schriften",
+    "footer": "Fußzeile",
+    "group": "Gruppe",
+    "header": "Kopfzeile",
+    "layout": "Layout",
+    "localization": "Lokalisierung",
+    "main": "Hauptbereich",
+    "menu": "Menü",
+    "page": "Seite",
+    "password": "Passwort",
+    "pillars": "Säulen",
+    "primary": "Primär",
+    "product": "Produkt",
+    "row": "Zeile",
+    "search": "Suche",
+    "secondary": "Sekundär",
+    "section": "Sektion",
+    "settings": "Einstellungen",
+    "sidebar": "Seitenleiste",
+    "stats": "Statistiken",
+    "text": "Text",
+    "theme": "Theme",
+    "typography": "Typografie"
+  },
+  "labels": {
+    "alignment": "Ausrichtung",
+    "author": "Autor",
+    "background": "Hintergrund",
+    "background_image": "Hintergrundbild",
+    "body": "Fließtext",
+    "body1": "Absatz 1",
+    "body2": "Absatz 2",
+    "brand_blurb": "Markenbeschreibung",
+    "button_label": "Buttontext",
+    "collection": "Kollektion",
+    "color_rose": "Rosé",
+    "color_rose_light": "Rosé (hell)",
+    "color_rose_dark": "Rosé (dunkel)",
+    "color_cream": "Creme",
+    "cta_label": "Buttontext",
+    "cta_style": "Buttonstil",
+    "cta_url": "Button-Link",
+    "eyebrow": "Überzeile",
+    "font_heading": "Überschrift-Schriftart",
+    "font_body": "Fließtext-Schriftart",
+    "footnote": "Fußnote",
+    "foreground": "Vordergrund",
+    "grid_gap": "Rasterabstand",
+    "grid_item_width": "Rasterelementbreite",
+    "heading": "Überschrift",
+    "heading_italic": "Überschrift (kursiv)",
+    "image": "Bild",
+    "image_position": "Bildposition",
+    "input_corner_radius": "Eingabefeld-Eckenradius",
+    "instagram_handle": "Instagram-Name",
+    "instagram_url": "Instagram-URL",
+    "layout_direction": "Layout-Richtung",
+    "location": "Ort",
+    "logo": "Logo",
+    "menu": "Menü",
+    "menu_left": "Linkes Menü",
+    "menu_right": "Rechtes Menü",
+    "customer_account_menu": "Kundenkontomenü",
+    "number": "Nummer",
+    "padding": "Innenabstand",
+    "page_margin": "Seitenrand",
+    "page_width": "Seitenbreite",
+    "pillar_label": "Säulenbezeichnung",
+    "pillar_value": "Säulenwert",
+    "policy_menu": "Richtlinien-Menü",
+    "product": "Produkt",
+    "products_to_show": "Anzahl Produkte",
+    "quote": "Zitat",
+    "show_pillars": "Säulen anzeigen",
+    "show_localization": "Sprach- und Währungsauswahl anzeigen",
+    "show_payment_icons": "Zahlungssymbole anzeigen",
+    "show_scroll_cue": "Scroll-Hinweis anzeigen",
+    "speed": "Geschwindigkeit",
+    "stat_label": "Statistik-Bezeichnung",
+    "stat_value": "Statistik-Wert",
+    "subheading": "Unterzeile",
+    "tagline": "Slogan",
+    "text": "Text",
+    "text_style": "Textstil",
+    "title": "Titel"
+  },
+  "info": {
+    "font_heading": "Cormorant Garamond wird von Google Fonts geladen, um exakt zur Marke zu passen. Wähle hier eine Shopify-Schrift als Fallback.",
+    "featured_product_image": "Optionaler Override. Standardmäßig wird das Hauptbild des gewählten Produkts verwendet.",
+    "cta_url_fallback": "Wird verwendet, wenn kein Produkt ausgewählt ist."
+  },
+  "options": {
+    "alignment": {
+      "left": "Links",
+      "center": "Mitte",
+      "right": "Rechts"
+    },
+    "background": {
+      "cream": "Creme",
+      "black": "Schwarz",
+      "pink": "Rosa",
+      "off_white": "Off-White"
+    },
+    "cta_style": {
+      "arrow_link": "Pfeil-Link",
+      "button_rose": "Rosé-Button",
+      "button_black": "Schwarzer Button"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertikal"
+    },
+    "image_position": {
+      "left": "Links",
+      "right": "Rechts"
+    },
+    "page_width": {
+      "narrow": "Schmal",
+      "wide": "Breit"
+    },
+    "size": {
+      "large": "Groß",
+      "small": "Klein"
+    },
+    "text_style": {
+      "title": "Titel",
+      "subtitle": "Untertitel",
+      "normal": "Normaler Text"
+    }
+  },
+  "sections": {
+    "hero": {
+      "name": "Hero"
+    },
+    "marquee": {
+      "name": "Laufschrift",
+      "phrase": "Phrase"
+    },
+    "manifesto": {
+      "name": "Manifest"
+    },
+    "editorial_split": {
+      "name": "Editorial Split"
+    },
+    "featured_collection": {
+      "name": "Hervorgehobene Kollektion"
+    },
+    "featured_product": {
+      "name": "Hervorgehobenes Produkt"
+    },
+    "ritual_steps": {
+      "name": "Ritual-Schritte",
+      "step": "Schritt"
+    },
+    "quote_banner": {
+      "name": "Zitat-Banner"
+    },
+    "testimonials": {
+      "name": "Stimmen",
+      "testimonial": "Stimme"
+    },
+    "lifestyle_grid": {
+      "name": "Lifestyle-Raster"
+    },
+    "newsletter": {
+      "name": "Newsletter"
+    }
+  }
+}

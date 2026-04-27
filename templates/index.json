@@ -1,0 +1,231 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "Since 2024 · Paris Inspired",
+        "heading": "Feel",
+        "heading_italic": "Luminous.",
+        "subheading": "Skincare born from the language of desire",
+        "cta_label": "Discover the Collection",
+        "show_scroll_cue": true
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "p1": { "type": "phrase", "settings": { "text": "Luxury Skincare" } },
+        "p2": { "type": "phrase", "settings": { "text": "Crafted with Intention" } },
+        "p3": { "type": "phrase", "settings": { "text": "Rooted in Purpose" } },
+        "p4": { "type": "phrase", "settings": { "text": "Feel the Ritual" } },
+        "p5": { "type": "phrase", "settings": { "text": "Paris Inspired" } },
+        "p6": { "type": "phrase", "settings": { "text": "Dermatologically Tested" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "settings": {
+        "speed": 28
+      }
+    },
+    "manifesto": {
+      "type": "manifesto",
+      "settings": {
+        "eyebrow": "Our Philosophy",
+        "heading": "Skincare is not\njust a routine.",
+        "heading_italic": "It is a ritual.",
+        "body": "Valentina was born from the belief that beauty is a feeling — not a formula. Each creation is a love letter to your skin: sensory, considered, deeply intentional."
+      }
+    },
+    "valentina-way": {
+      "type": "editorial-split",
+      "settings": {
+        "image_position": "left",
+        "background": "black",
+        "eyebrow": "The Valentina Way",
+        "heading": "Where craft meets",
+        "heading_italic": "consciousness.",
+        "body1": "Each formulation is a dialogue between French heritage and modern science. We work with master perfumers in Grasse, biochemists in Paris, and ethical growers across the Mediterranean.",
+        "body2": "Our laboratory is small. Our standards are uncompromising. Every ingredient earns its place — chosen not for trend, but for truth.",
+        "cta_label": "Our Process",
+        "cta_style": "arrow-link"
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "The Collection",
+        "heading": "Four acts of",
+        "heading_italic": "devotion.",
+        "products_to_show": 4,
+        "cta_label": "View All Products"
+      }
+    },
+    "sleeplift": {
+      "type": "featured-product",
+      "settings": {
+        "image_position": "right",
+        "eyebrow": "Limited Edition · Spotlight",
+        "heading": "Sleeplift",
+        "heading_italic": "Elixir.",
+        "body1": "An overnight ritual born from twelve months of research. A constellation of bakuchiol, niacinamide, and seven hand-picked botanicals that work in concert with your skin's natural rhythm.",
+        "body2": "Wake to skin that feels remembered. Plump, radiant, transformed.",
+        "stat_1_value": "12mo",
+        "stat_1_label": "Research",
+        "stat_2_value": "23",
+        "stat_2_label": "Actives",
+        "stat_3_value": "98%",
+        "stat_3_label": "See Results",
+        "cta_label": "Add to Cart"
+      }
+    },
+    "ritual-steps": {
+      "type": "ritual-steps",
+      "settings": {
+        "eyebrow": "The Ritual",
+        "heading": "Four moments to",
+        "heading_italic": "yourself."
+      },
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Cleanse",
+            "body": "Begin in stillness. Wash away the day with our cleansing balm — a slow ceremony of melting, breathing, returning."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Tone",
+            "body": "Mist of rose and witch hazel. A soft veil that prepares the skin for what comes next, restoring its natural balance."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Treat",
+            "body": "Targeted serums — luminosity, vitality, longevity. Choose your need; trust the science woven into every drop."
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "title": "Nourish",
+            "body": "Seal it all in. The Velvet Cream becomes a final gesture of self-love — comforting, occlusive, deeply hydrating."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    },
+    "quote-banner": {
+      "type": "quote-banner",
+      "settings": {
+        "quote": "True beauty is not painted on the surface. It rises from beneath, slowly, like dawn.",
+        "author": "Valentina, Founder"
+      }
+    },
+    "bright-247": {
+      "type": "editorial-split",
+      "settings": {
+        "image_position": "right",
+        "background": "off-white",
+        "eyebrow": "What's New",
+        "heading": "Bright 24/7",
+        "heading_italic": "Elixir.",
+        "body1": "A morning serum infused with stabilised vitamin C, mushroom-derived ferulic acid, and a custom complex of marine antioxidants — designed to defend your skin against urban light, screens, and the slow erosion of time.",
+        "body2": "Dermatologically tested. Visibly transformative. The first chapter of your day, rewritten.",
+        "cta_label": "Discover the Story",
+        "cta_style": "button-rose"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "eyebrow": "Words From Our Community",
+        "heading": "Stories of",
+        "heading_italic": "transformation."
+      },
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Valentina is the first skincare line that feels like poetry. Six weeks in, my skin is calmer, brighter — but more than that, my mornings feel sacred again.",
+            "author": "Sophia M.",
+            "location": "Paris, France"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I have sensitive skin and have tried everything. The Velvet Cream is the only product that has never let me down. The texture is divine — like a whispered promise.",
+            "author": "Mei L.",
+            "location": "Tokyo, Japan"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "These are not products. They are a philosophy bottled. The packaging alone has reframed how I see my own bathroom counter.",
+            "author": "Catherine V.",
+            "location": "Milan, Italy"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
+    "commitment": {
+      "type": "editorial-split",
+      "settings": {
+        "image_position": "left",
+        "background": "pink",
+        "eyebrow": "Our Commitment",
+        "heading": "Beauty,",
+        "heading_italic": "responsibly.",
+        "body1": "From sustainable sourcing in the Mediterranean to refillable porcelain vessels designed to live on your shelf for a lifetime — every choice we make is an act of intention.",
+        "body2": "Cruelty-free, vegan, and crafted with reverence for the earth that gives us so much.",
+        "pillars_enabled": true,
+        "pillar_1_label": "Refillable",
+        "pillar_1_value": "Porcelain\nVessels",
+        "pillar_2_label": "Carbon",
+        "pillar_2_value": "Neutral\nShipping",
+        "cta_label": "Read Our Story",
+        "cta_style": "arrow-link"
+      }
+    },
+    "lifestyle-grid": {
+      "type": "lifestyle-grid",
+      "settings": {
+        "instagram_handle": "@valentinaskincare"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Stay Close",
+        "heading": "Letters from",
+        "heading_italic": "the studio.",
+        "body": "Slow rituals, new launches, founder reflections. No noise — just intention, delivered to your inbox.",
+        "button_label": "Subscribe",
+        "footnote": "By subscribing you agree to our Privacy Policy."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "manifesto",
+    "valentina-way",
+    "featured-collection",
+    "sleeplift",
+    "ritual-steps",
+    "quote-banner",
+    "bright-247",
+    "testimonials",
+    "commitment",
+    "lifestyle-grid",
+    "newsletter"
+  ]
+}
