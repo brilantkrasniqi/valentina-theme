@@ -1,23 +1,32 @@
-{% comment %}
-  This section is used in the 404 template to render page shown when customers
-  enter an invalid store URL.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/404
-{% endcomment %}
-
-<h1>{{ '404.title' | t }}</h1>
-
-<p>
-  {{ '404.not_found' | t }}
-</p>
-
-<a href="{{ routes.all_products_collection_url }}">
-  {{ '404.back_to_shopping' | t }}
-</a>
+<section class="min-h-[70vh] flex flex-col items-center justify-center px-6 md:px-10 py-24 bg-v-cream" data-section-type="main-not-found">
+  <div class="max-w-lg w-full text-center border border-black/10 bg-white/40 px-8 py-14 md:py-16">
+    <p class="text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-6">{{ 'sections.main_not_found.code' | t }}</p>
+    <h1 class="font-serif text-4xl md:text-5xl font-light text-black mb-4">{{ '404.title' | t }}</h1>
+    <p class="text-black/45 text-sm font-light leading-relaxed mb-10">
+      {{ '404.not_found' | t }}
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch">
+      <a
+        href="{{ routes.root_url }}"
+        class="inline-flex justify-center text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-8 py-[14px] hover:bg-black hover:text-white transition-all duration-500"
+      >
+        {{ '404.back_home' | t }}
+      </a>
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="inline-flex justify-center text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-8 py-[14px] hover:bg-black transition-all duration-500"
+      >
+        {{ '404.back_to_shopping' | t }}
+      </a>
+    </div>
+  </div>
+</section>
 
 {% schema %}
 {
-  "name": "t:general.404",
+  "name": "t:sections.main_not_found.name",
+  "tag": "section",
+  "class": "section-main-not-found",
   "settings": []
 }
 {% endschema %}

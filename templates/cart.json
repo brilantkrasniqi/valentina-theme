@@ -9,12 +9,18 @@
  */
 {
   "sections": {
+    "cart-breadcrumb": {
+      "type": "cart-breadcrumb",
+      "settings": {}
+    },
     "main": {
       "type": "cart",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Your ritual",
+        "show_note": true,
+        "show_continue": true
+      }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["cart-breadcrumb", "main"]
 }

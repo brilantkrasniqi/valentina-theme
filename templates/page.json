@@ -11,10 +11,10 @@
   "sections": {
     "main": {
       "type": "page",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Valentina"
+      }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

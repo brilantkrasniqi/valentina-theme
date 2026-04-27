@@ -2,6 +2,7 @@
   "404": {
     "title": "404",
     "not_found": "Seite nicht gefunden.",
+    "back_home": "Zur Startseite",
     "back_to_shopping": "Zurück zum Shop"
   },
   "general": {
@@ -35,6 +36,11 @@
     "checkout": "Zur Kasse",
     "view_cart": "Warenkorb ansehen",
     "update": "Aktualisieren",
+    "update_cart": "Warenkorb aktualisieren",
+    "continue_shopping": "Weiter einkaufen",
+    "order_note": "Bestellhinweis",
+    "order_note_placeholder": "Geschenknachricht oder Lieferhinweise (optional)",
+    "quantity_label": "Menge",
     "remove": "Entfernen",
     "increase": "Menge erhöhen",
     "decrease": "Menge verringern",
@@ -49,13 +55,114 @@
       "email": "E-Mail",
       "password": "Passwort",
       "submit": "Anmelden",
-      "title": "Anmelden"
+      "sign_in": "Anmelden",
+      "title": "Anmelden",
+      "create_account": "Konto erstellen",
+      "forgot_password": "Passwort vergessen?",
+      "cancel": "Zurück zum Shop",
+      "guest_continue": "Als Gast fortfahren",
+      "or": "oder"
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "submit": "Erstellen",
+      "sign_in": "Bereits ein Konto? Anmelden"
+    },
+    "account": {
+      "title": "Konto",
+      "welcome": "Willkommen, {{ name }}",
+      "orders_title": "Bestellhistorie",
+      "none": "Du hast noch keine Bestellungen aufgegeben.",
+      "order_number": "Bestellung {{ number }}",
+      "view_order": "Ansehen",
+      "view_addresses": "Adressen",
+      "log_out": "Abmelden"
+    },
+    "addresses": {
+      "title": "Adressen",
+      "back": "Zurück zum Konto",
+      "add_new": "Adresse hinzufügen",
+      "add": "Adresse hinzufügen",
+      "update": "Adresse aktualisieren",
+      "cancel": "Abbrechen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "none": "Noch keine gespeicherten Adressen.",
+      "default": "Standard",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "company": "Firma",
+      "address1": "Adresse",
+      "address2": "Wohnung, Etage usw.",
+      "city": "Ort",
+      "country": "Land",
+      "province": "Bundesland / Kanton",
+      "zip": "PLZ",
+      "phone": "Telefon",
+      "set_default": "Als Standardadresse"
+    },
+    "order": {
+      "title": "Bestellung {{ name }}",
+      "back": "Zurück zum Konto",
+      "payment": "Zahlung",
+      "fulfillment": "Fulfillment",
+      "product": "Produkt",
+      "sku": "SKU",
+      "price": "Preis",
+      "quantity": "Menge",
+      "total": "Gesamt",
+      "subtotal": "Zwischensumme"
+    },
+    "activate_account": {
+      "title": "Konto aktivieren",
+      "subtext": "Lege ein Passwort fest, um dein Konto zu aktivieren.",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Konto aktivieren"
+    },
+    "reset_password": {
+      "title": "Passwort zurücksetzen",
+      "subtext": "Gib ein neues Passwort für dein Konto ein.",
+      "password": "Passwort",
+      "password_confirm": "Passwort bestätigen",
+      "submit": "Passwort zurücksetzen"
+    },
+    "recover_password": {
+      "title": "Passwort zurücksetzen",
+      "subtext": "Wir senden dir eine E-Mail mit einem Link zum Zurücksetzen.",
+      "email": "E-Mail",
+      "submit": "Senden",
+      "success": "Wir haben dir eine E-Mail mit einem Link zum Aktualisieren deines Passworts gesendet.",
+      "cancel": "Abbrechen"
     }
   },
   "collections": {
-    "title": "Kollektionen"
+    "title": "Kollektionen",
+    "product_count_simple": "{{ count }} Produkte",
+    "product_count_filtered": "{{ count }} von {{ total }} Produkten",
+    "sort_label": "Sortieren nach",
+    "remove_filter": "Filter entfernen",
+    "clear_all": "Alle zurücksetzen",
+    "apply_filters": "Filter anwenden",
+    "empty": "Keine Produkte",
+    "empty_filtered": "Passe die Filter an oder setze sie zurück, um mehr Artikel zu sehen.",
+    "empty_no_products": "Diese Kollektion enthält noch keine Produkte.",
+    "back_home": "Zur Startseite",
+    "pagination_nav": "Seiten der Kollektion",
+    "pagination_previous": "Zurück",
+    "pagination_next": "Weiter",
+    "product_grid_label": "Produkte",
+    "filter_price_min": "Min.",
+    "filter_price_max": "Max.",
+    "clear_filters_cta": "Filter zurücksetzen"
   },
   "products": {
+    "from": "Ab",
+    "from_price_accessible": "Ab Preis",
     "shop_now": "Jetzt kaufen",
     "add_to_cart": "In den Warenkorb",
     "add_to_ritual": "Zum Ritual hinzufügen",
@@ -84,6 +191,42 @@
     "product_breadcrumb": {
       "home": "Start",
       "nav_aria": "Brotkrumen"
+    },
+    "collection_breadcrumb": {
+      "home": "Start",
+      "nav_aria": "Brotkrumen"
+    },
+    "cart_breadcrumb": {
+      "home": "Start",
+      "nav_aria": "Brotkrumen"
+    },
+    "simple_breadcrumb": {
+      "home": "Start",
+      "nav_aria": "Brotkrumen"
+    },
+    "main_not_found": {
+      "code": "Nicht gefunden"
+    },
+    "customers_login": {
+      "breadcrumb": "Anmelden"
+    },
+    "customers_register": {
+      "breadcrumb": "Registrieren"
+    },
+    "customers_account": {
+      "breadcrumb": "Konto"
+    },
+    "customers_addresses": {
+      "breadcrumb": "Adressen"
+    },
+    "customers_activate_account": {
+      "breadcrumb": "Konto aktivieren"
+    },
+    "customers_reset_password": {
+      "breadcrumb": "Passwort zurücksetzen"
+    },
+    "customers_recover_password": {
+      "breadcrumb": "Passwort wiederherstellen"
     },
     "product_related": {
       "empty": "Wähle verwandte Produkte in den Abschnittseinstellungen."
@@ -116,6 +259,9 @@
     "placeholder": "Artikel, Seiten oder Produkte suchen",
     "submit": "Suchen",
     "no_results_html": "Keine Ergebnisse für {{ terms }}",
-    "results_for_html": "{{ count }} Ergebnisse für {{ terms }}"
+    "no_results_title": "Keine Treffer",
+    "results_for_html": "{{ count }} Ergebnisse für {{ terms }}",
+    "result_type_article": "Artikel",
+    "result_type_page": "Seite"
   }
 }

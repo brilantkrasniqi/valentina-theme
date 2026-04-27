@@ -1,0 +1,89 @@
+{%- liquid
+  assign reveal = reveal_class | default: 'reveal'
+  assign img_sizes = sizes | default: '(min-width: 1024px) 25vw, 50vw'
+  assign ph_idx = placeholder_index | default: 1
+  assign ph_slug = 'product-' | append: ph_idx
+  assign loading_attr = 'lazy'
+  if lazy == false
+    assign loading_attr = 'eager'
+  endif
+
+  assign badge_label = ''
+  assign badge_class = ''
+  if product.tags contains 'bestseller' or product.tags contains 'Bestseller'
+    assign badge_label = 'products.badge.bestseller' | t
+    assign badge_class = 'bg-v-rose text-white'
+  elsif product.tags contains 'new' or product.tags contains 'New'
+    assign badge_label = 'products.badge.new' | t
+    assign badge_class = 'bg-black text-white'
+  elsif product.compare_at_price > product.price
+    assign badge_label = 'products.badge.sale' | t
+    assign badge_class = 'bg-black text-white'
+  endif
+
+  assign vendor_or_type = product.type | default: product.vendor
+
+  if within_collection != blank
+    assign card_href = product.url | within: within_collection
+  else
+    assign card_href = product.url
+  endif
+-%}
+
+<a href="{{ card_href }}" class="p-card cursor-pointer block {{ reveal }}">
+  <div class="relative overflow-hidden bg-[#f0ebe9] aspect-[3/4] img-zoom-parent">
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 800
+        | image_tag:
+          class: 'img-zoom absolute inset-0 w-full h-full object-cover',
+          widths: '300, 450, 600, 800',
+          sizes: img_sizes,
+          loading: loading_attr,
+          alt: product.featured_image.alt | default: product.title
+      }}
+    {%- else -%}
+      {{ ph_slug | placeholder_svg_tag: 'absolute inset-0 w-full h-full object-cover bg-v-rose-light' }}
+    {%- endif -%}
+    <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-500 flex items-end p-5 md:p-6">
+      <span class="w-full text-center text-white text-[9px] tracking-[.3em] uppercase border border-white/50 py-3 hover:bg-v-rose hover:border-v-rose transition-all duration-300">
+        {{ 'products.shop_now' | t }}
+      </span>
+    </div>
+    {%- if badge_label != '' -%}
+      <span class="absolute top-4 left-4 {{ badge_class }} text-[7.5px] tracking-[.28em] uppercase px-3 py-[4px]">
+        {{ badge_label }}
+      </span>
+    {%- endif -%}
+  </div>
+
+  <div class="pt-5">
+    {%- if vendor_or_type != blank -%}
+      <p class="text-[8px] tracking-[.4em] uppercase text-black/30 font-light mb-1">
+        {{ vendor_or_type }}
+      </p>
+    {%- endif -%}
+    <h3 class="font-serif text-[1.15rem] font-light text-black mb-2">{{ product.title }}</h3>
+    {%- if product.metafields.descriptors.subtitle != blank -%}
+      <p class="text-black/40 text-[12px] font-light leading-relaxed mb-3 hidden sm:block">
+        {{ product.metafields.descriptors.subtitle }}
+      </p>
+    {%- endif -%}
+    <p class="text-sm font-light text-black">
+      {%- if product.price_varies -%}
+        <span class="sr-only">{{ 'products.from_price_accessible' | t }}</span>
+        <span class="text-black/40 mr-1.5" aria-hidden="true">{{ 'products.from' | t }}</span>
+        {%- if product.compare_at_price_min > product.price_min -%}
+          <span class="line-through text-black/30 mr-2">{{ product.compare_at_price_min | money }}</span>
+        {%- endif -%}
+        {{- product.price_min | money -}}
+      {%- else -%}
+        {%- if product.compare_at_price > product.price -%}
+          <span class="line-through text-black/30 mr-2">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+        {{- product.price | money -}}
+      {%- endif -%}
+    </p>
+  </div>
+</a>

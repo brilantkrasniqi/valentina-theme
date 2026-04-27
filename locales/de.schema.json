@@ -195,6 +195,65 @@
     "product_breadcrumb": {
       "name": "Produkt-Breadcrumb"
     },
+    "collection_breadcrumb": {
+      "name": "Kollektion-Breadcrumb"
+    },
+    "cart_breadcrumb": {
+      "name": "Warenkorb-Breadcrumb"
+    },
+    "main_cart": {
+      "name": "Warenkorb",
+      "show_note": "Bestellhinweis anzeigen",
+      "show_continue": "Link „Weiter einkaufen“ anzeigen"
+    },
+    "main_page": {
+      "name": "Seite"
+    },
+    "main_not_found": {
+      "name": "404-Seite"
+    },
+    "main_search": {
+      "name": "Suchergebnisse",
+      "results_per_page": "Ergebnisse pro Seite",
+      "products_only": "Nur Produkte",
+      "show_filters": "Storefront-Filter anzeigen",
+      "show_filters_info": "Filter im Shopify-Admin einrichten (Search & Discovery). Filter erscheinen nach einer Suche."
+    },
+    "customers_login": {
+      "name": "Kundenlogin"
+    },
+    "customers_register": {
+      "name": "Kundenregistrierung"
+    },
+    "customers_account": {
+      "name": "Kundenkonto"
+    },
+    "customers_addresses": {
+      "name": "Kundenadressen"
+    },
+    "customers_order": {
+      "name": "Kundenbestellung"
+    },
+    "customers_activate_account": {
+      "name": "Konto aktivieren"
+    },
+    "customers_reset_password": {
+      "name": "Passwort zurücksetzen"
+    },
+    "customers_recover_password": {
+      "name": "Passwort wiederherstellen"
+    },
+    "main_collection": {
+      "name": "Kollektion",
+      "show_description": "Kollektionsbeschreibung anzeigen",
+      "description_truncate": "Beschreibung als Klartext kürzen",
+      "description_word_limit": "Länge der gekürzten Beschreibung (Wörter)",
+      "products_per_page": "Produkte pro Seite",
+      "columns_desktop": "Spalten auf großen Bildschirmen",
+      "show_sort": "Sortierung anzeigen",
+      "show_filters": "Storefront-Filter anzeigen",
+      "show_filters_info": "Filter im Shopify-Admin unter Search & Discovery → Filters einrichten."
+    },
     "product_benefits": {
       "name": "Produktvorteile",
       "benefit": "Vorteil",

@@ -1,0 +1,122 @@
+{% comment %} Shared fields for customer_address form. @param form {form} {% endcomment %}
+
+<div class="space-y-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressFirstName">{{ 'customers.addresses.first_name' | t }}</label>
+      <input
+        type="text"
+        name="address[first_name]"
+        id="AddressFirstName"
+        value="{{ form.first_name }}"
+        autocomplete="given-name"
+        class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+      >
+    </div>
+    <div>
+      <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressLastName">{{ 'customers.addresses.last_name' | t }}</label>
+      <input
+        type="text"
+        name="address[last_name]"
+        id="AddressLastName"
+        value="{{ form.last_name }}"
+        autocomplete="family-name"
+        class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+      >
+    </div>
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressCompany">{{ 'customers.addresses.company' | t }}</label>
+    <input
+      type="text"
+      name="address[company]"
+      id="AddressCompany"
+      value="{{ form.company }}"
+      autocomplete="organization"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+    >
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="Address1">{{ 'customers.addresses.address1' | t }}</label>
+    <input
+      type="text"
+      name="address[address1]"
+      id="Address1"
+      value="{{ form.address1 }}"
+      autocomplete="address-line1"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+    >
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="Address2">{{ 'customers.addresses.address2' | t }}</label>
+    <input
+      type="text"
+      name="address[address2]"
+      id="Address2"
+      value="{{ form.address2 }}"
+      autocomplete="address-line2"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+    >
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressCity">{{ 'customers.addresses.city' | t }}</label>
+      <input
+        type="text"
+        name="address[city]"
+        id="AddressCity"
+        value="{{ form.city }}"
+        autocomplete="address-level2"
+        class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+      >
+    </div>
+    <div>
+      <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressZip">{{ 'customers.addresses.zip' | t }}</label>
+      <input
+        type="text"
+        name="address[zip]"
+        id="AddressZip"
+        value="{{ form.zip }}"
+        autocomplete="postal-code"
+        class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+      >
+    </div>
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressCountry">{{ 'customers.addresses.country' | t }}</label>
+    <select
+      name="address[country]"
+      id="AddressCountry"
+      autocomplete="country"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+      data-default="{{ form.country }}"
+    >
+      {{ all_country_option_tags }}
+    </select>
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressProvince">{{ 'customers.addresses.province' | t }}</label>
+    <input
+      type="text"
+      name="address[province]"
+      id="AddressProvince"
+      value="{{ form.province }}"
+      autocomplete="address-level1"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+    >
+  </div>
+  <div>
+    <label class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2" for="AddressPhone">{{ 'customers.addresses.phone' | t }}</label>
+    <input
+      type="tel"
+      name="address[phone]"
+      id="AddressPhone"
+      value="{{ form.phone }}"
+      autocomplete="tel"
+      class="w-full border border-black/15 px-4 py-3 text-sm font-light bg-white focus:outline-none focus:border-v-rose"
+    >
+  </div>
+  <div class="pt-2 text-sm font-light text-black/70 [&_input]:mr-2 [&_label]:inline">
+    {{ form.set_default }}
+  </div>
+</div>

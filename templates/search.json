@@ -11,10 +11,13 @@
   "sections": {
     "main": {
       "type": "search",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Search",
+        "results_per_page": 24,
+        "products_only": false,
+        "show_filters": true
+      }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

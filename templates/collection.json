@@ -9,12 +9,40 @@
  */
 {
   "sections": {
+    "collection-breadcrumb": {
+      "type": "collection-breadcrumb",
+      "settings": {}
+    },
+    "collection-marquee": {
+      "type": "marquee",
+      "blocks": {
+        "p1": { "type": "phrase", "settings": { "text": "Luxury Skincare" } },
+        "p2": { "type": "phrase", "settings": { "text": "Crafted with Intention" } },
+        "p3": { "type": "phrase", "settings": { "text": "Rooted in Purpose" } },
+        "p4": { "type": "phrase", "settings": { "text": "Feel the Ritual" } }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "speed": 28
+      }
+    },
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Shop",
+        "show_description": false,
+        "description_truncate": true,
+        "description_word_limit": 40,
+        "products_per_page": 24,
+        "columns_desktop": 3,
+        "show_sort": true,
+        "show_filters": true
+      }
     }
   },
   "order": [
+    "collection-breadcrumb",
+    "collection-marquee",
     "main"
   ]
 }

@@ -1,70 +1,325 @@
-{% comment %}
-  This section is used in the search template to render search results for
-  products, articles, and pages.
+{%- assign search_label = 'search.title' | t -%}
+{% render 'breadcrumbs', current_label: search_label %}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/search
-{% endcomment %}
+{%- liquid
+  assign per_page = section.settings.results_per_page | default: 24
+  if per_page > 50
+    assign per_page = 50
+  endif
+  if per_page < 8
+    assign per_page = 8
+  endif
+  assign current_sort = search.sort_by | default: search.default_sort_by
+-%}
 
-<h1>{{ 'search.title' | t }}</h1>
+<section class="pb-24 md:pb-32 px-6 md:px-10 bg-v-cream" data-section-type="main-search" data-section-id="{{ section.id }}">
+  <div class="max-w-screen-xl mx-auto pt-6 md:pt-4">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-5">
+        {{ section.settings.eyebrow }}
+      </p>
+    {%- endif -%}
 
-<form action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    size="50"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-  >
-  <button type="submit">{{ 'search.submit' | t }}</button>
-</form>
+    <h1 class="font-serif text-black font-light mb-10" style="font-size: clamp(2rem, 4.5vw, 3rem);">
+      {{ 'search.title' | t }}
+    </h1>
 
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="mb-12 max-w-2xl">
+      <label for="SearchInput-{{ section.id }}" class="sr-only">{{ 'search.placeholder' | t }}</label>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input
+          id="SearchInput-{{ section.id }}"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'search.placeholder' | t }}"
+          class="flex-1 border border-black/15 bg-white px-4 py-3.5 text-sm font-light text-black placeholder:text-black/35 focus:outline-none focus:border-v-rose min-h-[48px]"
+          autocomplete="off"
+        >
+        {%- if section.settings.products_only -%}
+          <input type="hidden" name="type" value="product">
+        {%- endif -%}
+        <button
+          type="submit"
+          class="shrink-0 text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-10 py-3.5 min-h-[48px] hover:bg-black hover:text-white transition-all duration-500"
+        >
+          {{ 'search.submit' | t }}
+        </button>
+      </div>
+    </form>
 
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
-                {% endif %}
-              </p>
-            </div>
+    {% if search.performed %}
+      {%- capture search_filter_hiddens -%}
+        <input type="hidden" name="q" value="{{ search.terms | escape }}">
+        {%- if section.settings.products_only -%}
+          <input type="hidden" name="type" value="product">
+        {%- endif -%}
+        {%- for filter in search.filters -%}
+          {%- for value in filter.active_values -%}
+            <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+          {%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != blank -%}
+              <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}">
+            {%- endif -%}
+            {%- if filter.max_value.value != blank -%}
+              <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}">
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {%- if search.sort_options.size > 0 -%}
+        <div class="mb-8 flex flex-wrap items-center gap-4">
+          <form method="get" action="{{ routes.search_url }}" class="flex items-center gap-3">
+            {{- search_filter_hiddens -}}
+            <label for="SearchSort-{{ section.id }}" class="sr-only">{{ 'collections.sort_label' | t }}</label>
+            <select
+              name="sort_by"
+              id="SearchSort-{{ section.id }}"
+              class="bg-transparent border border-black/15 text-[9px] tracking-[.28em] uppercase font-light py-2.5 px-4 text-black cursor-pointer min-h-[44px] min-w-[200px] focus:outline-none focus:border-v-rose"
+              onchange="this.form.submit()"
+            >
+              {%- for option in search.sort_options -%}
+                <option value="{{ option.value | escape }}" {% if option.value == current_sort %}selected{% endif %}>
+                  {{ option.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </form>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_filters and search.filters != empty -%}
+        <form method="get" action="{{ routes.search_url }}" id="SearchFiltersForm-{{ section.id }}" class="mb-10 space-y-4">
+          <input type="hidden" name="q" value="{{ search.terms | escape }}">
+          {%- if current_sort != blank -%}
+            <input type="hidden" name="sort_by" value="{{ current_sort }}">
+          {%- endif -%}
+          {%- if section.settings.products_only -%}
+            <input type="hidden" name="type" value="product">
+          {%- endif -%}
+
+          <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {%- for filter in search.filters -%}
+              <details class="group border border-black/10 bg-white/40 open:border-black/20">
+                <summary class="cursor-pointer list-none flex items-center justify-between gap-2 px-4 py-3 text-[9px] tracking-[.32em] uppercase font-light text-black [&::-webkit-details-marker]:hidden">
+                  <span>
+                    {{ filter.label }}
+                    {%- if filter.active_values.size > 0 -%}
+                      <span class="text-v-rose">({{ filter.active_values.size }})</span>
+                    {%- endif -%}
+                  </span>
+                  <span class="text-black/25 text-xs group-open:rotate-180 transition-transform" aria-hidden="true">▼</span>
+                </summary>
+                <div class="px-4 pb-4 pt-0 border-t border-black/5">
+                  {%- case filter.type -%}
+                    {%- when 'boolean' -%}
+                      <ul class="space-y-2 mt-4">
+                        <li>
+                          <label class="flex items-center gap-2 text-sm font-light cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="{{ filter.param_name }}"
+                              value="{{ filter.true_value.value }}"
+                              class="rounded border-black/20 text-v-rose"
+                              {% if filter.true_value.active %}checked{% endif %}
+                              {% if filter.true_value.count == 0 and filter.true_value.active == false %}disabled{% endif %}
+                            >
+                            {{ filter.true_value.label }}
+                          </label>
+                        </li>
+                        <li>
+                          <label class="flex items-center gap-2 text-sm font-light cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name="{{ filter.param_name }}"
+                              value="{{ filter.false_value.value }}"
+                              class="rounded border-black/20 text-v-rose"
+                              {% if filter.false_value.active %}checked{% endif %}
+                              {% if filter.false_value.count == 0 and filter.false_value.active == false %}disabled{% endif %}
+                            >
+                            {{ filter.false_value.label }}
+                          </label>
+                        </li>
+                      </ul>
+                    {%- when 'list' -%}
+                      {%- liquid
+                        assign sorted_values = filter.values
+                        if filter.operator == 'AND'
+                          assign active_filter_values = filter.values | where: 'active', true
+                          assign inactive_filter_values = filter.values | where: 'active', false
+                          assign sorted_values = active_filter_values | concat: inactive_filter_values
+                        endif
+                      -%}
+                      <ul class="space-y-2 mt-4 max-h-48 overflow-y-auto">
+                        {%- for value in sorted_values -%}
+                          {%- liquid
+                            assign is_disabled = false
+                            if value.count == 0 and value.active == false
+                              assign is_disabled = true
+                            endif
+                          -%}
+                          <li>
+                            <label class="flex items-center gap-2 text-sm font-light {% if is_disabled %}text-black/25{% else %}text-black{% endif %} cursor-pointer">
+                              <input
+                                type="checkbox"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                class="rounded border-black/20 text-v-rose shrink-0"
+                                {% if value.active %}checked{% endif %}
+                                {% if is_disabled %}disabled{% endif %}
+                              >
+                              <span>{{ value.label }} ({{ value.count }})</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- when 'price_range' -%}
+                      <div class="mt-4 flex flex-wrap gap-4 items-end">
+                        <div>
+                          <label class="block text-[8px] tracking-[.3em] uppercase text-black/40 mb-1.5" for="SearchFilter-{{ filter.param_name }}-gte-{{ section.id }}">{{ 'collections.filter_price_min' | t }}</label>
+                          <input
+                            class="border border-black/15 px-3 py-2 text-sm font-light bg-white w-full min-w-[7rem] focus:outline-none focus:border-v-rose"
+                            name="{{ filter.min_value.param_name }}"
+                            id="SearchFilter-{{ filter.param_name }}-gte-{{ section.id }}"
+                            {% if filter.min_value.value != blank %}value="{{ filter.min_value.value }}"{% endif %}
+                            type="text"
+                            inputmode="decimal"
+                            placeholder="0"
+                            autocomplete="off"
+                          >
+                        </div>
+                        <div>
+                          <label class="block text-[8px] tracking-[.3em] uppercase text-black/40 mb-1.5" for="SearchFilter-{{ filter.param_name }}-lte-{{ section.id }}">{{ 'collections.filter_price_max' | t }}</label>
+                          <input
+                            class="border border-black/15 px-3 py-2 text-sm font-light bg-white w-full min-w-[7rem] focus:outline-none focus:border-v-rose"
+                            name="{{ filter.max_value.param_name }}"
+                            id="SearchFilter-{{ filter.param_name }}-lte-{{ section.id }}"
+                            {% if filter.max_value.value != blank %}value="{{ filter.max_value.value }}"{% endif %}
+                            type="text"
+                            inputmode="numeric"
+                            placeholder="{{ filter.range_max | money }}"
+                            autocomplete="off"
+                          >
+                        </div>
+                      </div>
+                  {%- endcase -%}
+                </div>
+              </details>
+            {%- endfor -%}
           </div>
-        {% endfor %}
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-10 py-3.5 min-h-[44px] hover:bg-black hover:text-white transition-all duration-500"
+          >
+            {{ 'collections.apply_filters' | t }}
+          </button>
+        </form>
+      {%- endif -%}
 
-        {{ paginate | default_pagination }}
+      {% paginate search.results by per_page %}
+        {%- if search.results_count == 0 -%}
+          <div class="text-center py-16 border border-black/10 bg-white/30 max-w-xl mx-auto px-6">
+            <p class="font-serif text-lg font-light text-black mb-3">{{ 'search.no_results_title' | t }}</p>
+            <p class="text-sm text-black/45 font-light">{{ 'search.no_results_html' | t: terms: search.terms }}</p>
+          </div>
+        {%- else -%}
+          <p class="text-[8.5px] tracking-[.32em] uppercase text-black/35 font-light mb-8">
+            {{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+            {%- for result in search.results -%}
+              {%- if result.object_type == 'product' -%}
+                <div>
+                  {% render 'product-card', product: result, sizes: '(min-width: 1024px) 33vw, 50vw', lazy: true, placeholder_index: forloop.index %}
+                </div>
+              {%- else -%}
+                <a
+                  href="{{ result.url }}"
+                  class="block border border-black/10 bg-white/40 p-5 hover:border-v-rose/40 transition-colors min-h-[120px]"
+                >
+                  <p class="text-[8px] tracking-[.32em] uppercase text-v-rose font-light mb-2">
+                    {%- if result.object_type == 'article' -%}
+                      {{ 'search.result_type_article' | t }}
+                    {%- elsif result.object_type == 'page' -%}
+                      {{ 'search.result_type_page' | t }}
+                    {%- else -%}
+                      {{ result.object_type | capitalize }}
+                    {%- endif -%}
+                  </p>
+                  <p class="font-serif text-lg font-light text-black">{{ result.title }}</p>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="mt-16 flex flex-wrap items-center justify-center gap-2" aria-label="{{ 'collections.pagination_nav' | t }}">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="text-[9px] tracking-[.32em] uppercase font-light px-4 py-2.5 border border-black/15 hover:border-v-rose transition-colors min-h-[44px] inline-flex items-center">
+                  {{ 'collections.pagination_previous' | t }}
+                </a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="text-[9px] tracking-[.28em] uppercase font-light min-w-[44px] min-h-[44px] inline-flex items-center justify-center border border-black/15 hover:bg-black hover:text-white transition-colors">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="text-[9px] tracking-[.28em] uppercase font-light min-w-[44px] min-h-[44px] inline-flex items-center justify-center border border-v-rose text-v-rose bg-v-rose/5" aria-current="page">{{ part.title }}</span>
+                  {%- else -%}
+                    <span class="text-[9px] text-black/25 px-1">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="text-[9px] tracking-[.32em] uppercase font-light px-4 py-2.5 border border-black/15 hover:border-v-rose transition-colors min-h-[44px] inline-flex items-center">
+                  {{ 'collections.pagination_next' | t }}
+                </a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endif -%}
       {% endpaginate %}
-    </div>
-  {% endif %}
-{% endif %}
-
-{% stylesheet %}
-  .search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-  .search-results .prev,
-  .search-results .page,
-  .search-results .next {
-    grid-column: 1 / -1;
-  }
-{% endstylesheet %}
+    {% endif %}
+  </div>
+</section>
 
 {% schema %}
 {
-  "name": "t:general.search",
-  "settings": []
+  "name": "t:sections.main_search.name",
+  "tag": "section",
+  "class": "section-main-search",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Search"
+    },
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "label": "t:sections.main_search.results_per_page",
+      "min": 8,
+      "max": 50,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "products_only",
+      "label": "t:sections.main_search.products_only",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:sections.main_search.show_filters",
+      "default": true,
+      "info": "t:sections.main_search.show_filters_info"
+    }
+  ]
 }
 {% endschema %}

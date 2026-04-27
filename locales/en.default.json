@@ -2,6 +2,7 @@
   "404": {
     "title": "404",
     "not_found": "Page not found.",
+    "back_home": "Back to home",
     "back_to_shopping": "Back to shopping"
   },
   "general": {
@@ -35,6 +36,11 @@
     "checkout": "Checkout",
     "view_cart": "View Cart",
     "update": "Update",
+    "update_cart": "Update cart",
+    "continue_shopping": "Continue shopping",
+    "order_note": "Order note",
+    "order_note_placeholder": "Gift message or delivery notes (optional)",
+    "quantity_label": "Quantity",
     "remove": "Remove",
     "increase": "Increase quantity",
     "decrease": "Decrease quantity",
@@ -49,13 +55,114 @@
       "email": "Email",
       "password": "Password",
       "submit": "Sign in",
-      "title": "Login"
+      "sign_in": "Sign in",
+      "title": "Login",
+      "create_account": "Create account",
+      "forgot_password": "Forgot password?",
+      "cancel": "Return to store",
+      "guest_continue": "Continue as guest",
+      "or": "or"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create",
+      "sign_in": "Already have an account? Sign in"
+    },
+    "account": {
+      "title": "Account",
+      "welcome": "Welcome, {{ name }}",
+      "orders_title": "Order history",
+      "none": "You have not placed any orders yet.",
+      "order_number": "Order {{ number }}",
+      "view_order": "View",
+      "view_addresses": "Addresses",
+      "log_out": "Log out"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "back": "Back to account",
+      "add_new": "Add address",
+      "add": "Add address",
+      "update": "Update address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "none": "No saved addresses yet.",
+      "default": "Default",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "city": "City",
+      "country": "Country",
+      "province": "State / Province",
+      "zip": "Postal code",
+      "phone": "Phone",
+      "set_default": "Set as default address"
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "back": "Back to account",
+      "payment": "Payment",
+      "fulfillment": "Fulfillment",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Qty",
+      "total": "Total",
+      "subtotal": "Subtotal"
+    },
+    "activate_account": {
+      "title": "Activate account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "submit": "Activate account"
+    },
+    "reset_password": {
+      "title": "Reset password",
+      "subtext": "Enter a new password for your account.",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "submit": "Reset password"
+    },
+    "recover_password": {
+      "title": "Reset password",
+      "subtext": "We will send you an email to reset your password.",
+      "email": "Email",
+      "submit": "Submit",
+      "success": "We have sent you an email with a link to update your password.",
+      "cancel": "Cancel"
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "product_count_simple": "{{ count }} products",
+    "product_count_filtered": "{{ count }} of {{ total }} products",
+    "sort_label": "Sort by",
+    "remove_filter": "Remove filter",
+    "clear_all": "Clear all",
+    "apply_filters": "Apply filters",
+    "empty": "No products to show",
+    "empty_filtered": "Try adjusting or clearing your filters to see more items.",
+    "empty_no_products": "This collection does not contain any products yet.",
+    "back_home": "Back to home",
+    "pagination_nav": "Collection pagination",
+    "pagination_previous": "Previous",
+    "pagination_next": "Next",
+    "product_grid_label": "Products",
+    "filter_price_min": "Min",
+    "filter_price_max": "Max",
+    "clear_filters_cta": "Clear filters"
   },
   "products": {
+    "from": "From",
+    "from_price_accessible": "Starting at",
     "shop_now": "Shop Now",
     "add_to_cart": "Add to Cart",
     "add_to_ritual": "Add to Ritual",
@@ -84,6 +191,42 @@
     "product_breadcrumb": {
       "home": "Home",
       "nav_aria": "Breadcrumb"
+    },
+    "collection_breadcrumb": {
+      "home": "Home",
+      "nav_aria": "Breadcrumb"
+    },
+    "cart_breadcrumb": {
+      "home": "Home",
+      "nav_aria": "Breadcrumb"
+    },
+    "simple_breadcrumb": {
+      "home": "Home",
+      "nav_aria": "Breadcrumb"
+    },
+    "main_not_found": {
+      "code": "Not found"
+    },
+    "customers_login": {
+      "breadcrumb": "Sign in"
+    },
+    "customers_register": {
+      "breadcrumb": "Register"
+    },
+    "customers_account": {
+      "breadcrumb": "Account"
+    },
+    "customers_addresses": {
+      "breadcrumb": "Addresses"
+    },
+    "customers_activate_account": {
+      "breadcrumb": "Activate account"
+    },
+    "customers_reset_password": {
+      "breadcrumb": "Reset password"
+    },
+    "customers_recover_password": {
+      "breadcrumb": "Recover password"
     },
     "product_related": {
       "empty": "Select related products in the section settings."
@@ -116,6 +259,9 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "no_results_title": "No matches",
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "result_type_article": "Article",
+    "result_type_page": "Page"
   }
 }

@@ -1,0 +1,106 @@
+{%- assign crumb = 'sections.customers_addresses.breadcrumb' | t -%}
+{% render 'breadcrumbs', current_label: crumb %}
+
+<section class="pb-24 px-6 md:px-10 bg-v-cream" data-section-type="customers-addresses">
+  <div class="max-w-xl mx-auto pt-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
+      <h1 class="font-serif text-3xl font-light text-black">{{ 'customers.addresses.title' | t }}</h1>
+      <a href="{{ routes.account_url }}" class="text-[10px] tracking-[.32em] uppercase font-light text-black/50 hover:text-v-rose transition-colors">{{ 'customers.addresses.back' | t }}</a>
+    </div>
+
+    {%- liquid
+      assign path = request.path | downcase
+      assign is_new = false
+      if path contains '/addresses/new'
+        assign is_new = true
+      endif
+      assign edit_address = nil
+      unless is_new
+        assign segs = request.path | split: '/'
+        assign last_seg = segs | last
+        if last_seg != 'addresses' and last_seg != 'account' and last_seg != blank and last_seg != 'new'
+          assign last_str = last_seg | append: ''
+          for a in customer.addresses
+            assign aid = a.id | append: ''
+            if aid == last_str
+              assign edit_address = a
+              break
+            endif
+          endfor
+        endif
+      endunless
+    -%}
+
+    {%- if is_new -%}
+      <div class="border border-black/10 bg-white/50 p-8">
+        <h2 class="font-serif text-xl font-light text-black mb-6">{{ 'customers.addresses.add_new' | t }}</h2>
+        {% form 'customer_address', customer.new_address %}
+          {{ form.errors | default_errors }}
+          {% render 'customers-address-fields', form: form %}
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button type="submit" class="text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-10 py-3.5 hover:bg-black transition-all duration-500">
+              {{ 'customers.addresses.add' | t }}
+            </button>
+            <a href="{{ routes.account_addresses_url }}" class="inline-flex items-center text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-8 py-3.5 hover:bg-black hover:text-white transition-all duration-500">{{ 'customers.addresses.cancel' | t }}</a>
+          </div>
+        {% endform %}
+      </div>
+    {%- elsif edit_address -%}
+      <div class="border border-black/10 bg-white/50 p-8">
+        <h2 class="font-serif text-xl font-light text-black mb-6">{{ 'customers.addresses.edit' | t }}</h2>
+        {% form 'customer_address', edit_address %}
+          {{ form.errors | default_errors }}
+          {% render 'customers-address-fields', form: form %}
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button type="submit" class="text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose px-10 py-3.5 hover:bg-black transition-all duration-500">
+              {{ 'customers.addresses.update' | t }}
+            </button>
+            <a href="{{ routes.account_addresses_url }}" class="inline-flex items-center text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-8 py-3.5 hover:bg-black hover:text-white transition-all duration-500">{{ 'customers.addresses.cancel' | t }}</a>
+            <button type="submit" name="delete" class="text-[10px] tracking-[.28em] uppercase font-light text-black/40 hover:text-v-rose transition-colors ml-auto">
+              {{ 'customers.addresses.delete' | t }}
+            </button>
+          </div>
+        {% endform %}
+      </div>
+    {%- else -%}
+      <div class="mb-10">
+        <a
+          href="{{ routes.account_addresses_url }}/new"
+          class="inline-flex text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-8 py-3 hover:bg-black hover:text-white transition-all duration-500"
+        >
+          {{ 'customers.addresses.add_new' | t }}
+        </a>
+      </div>
+
+      {%- if customer.addresses.size == 0 -%}
+        <p class="text-sm text-black/45 font-light border border-black/10 bg-white/40 p-8 text-center">{{ 'customers.addresses.none' | t }}</p>
+      {%- else -%}
+        <ul class="space-y-6" role="list">
+          {%- for address in customer.addresses -%}
+            <li class="border border-black/10 bg-white/50 p-6 md:p-8">
+              {%- if address == customer.default_address -%}
+                <p class="text-[8px] tracking-[.32em] uppercase text-v-rose font-light mb-4">{{ 'customers.addresses.default' | t }}</p>
+              {%- endif -%}
+              <div class="text-sm font-light text-black/70 leading-relaxed whitespace-pre-line">{{ address | format_address }}</div>
+              <div class="mt-6">
+                <a href="{{ address.url }}" class="text-[10px] tracking-[.28em] uppercase font-light text-black/50 border border-black/15 px-4 py-2 hover:border-v-rose hover:text-v-rose transition-colors">{{ 'customers.addresses.edit' | t }}</a>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.customers_addresses.name",
+  "tag": "section",
+  "class": "section-customers-addresses",
+  "settings": [],
+  "enabled_on": {
+    "templates": ["customers/addresses"]
+  }
+}
+{% endschema %}

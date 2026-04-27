@@ -195,6 +195,65 @@
     "product_breadcrumb": {
       "name": "Product breadcrumb"
     },
+    "collection_breadcrumb": {
+      "name": "Collection breadcrumb"
+    },
+    "cart_breadcrumb": {
+      "name": "Cart breadcrumb"
+    },
+    "main_cart": {
+      "name": "Cart",
+      "show_note": "Show order note",
+      "show_continue": "Show continue shopping link"
+    },
+    "main_page": {
+      "name": "Page"
+    },
+    "main_not_found": {
+      "name": "404 page"
+    },
+    "main_search": {
+      "name": "Search results",
+      "results_per_page": "Results per page",
+      "products_only": "Product results only",
+      "show_filters": "Show storefront filters",
+      "show_filters_info": "Configure filters in Shopify admin (Search & Discovery). Filters apply when search has been run."
+    },
+    "customers_login": {
+      "name": "Customer login"
+    },
+    "customers_register": {
+      "name": "Customer register"
+    },
+    "customers_account": {
+      "name": "Customer account"
+    },
+    "customers_addresses": {
+      "name": "Customer addresses"
+    },
+    "customers_order": {
+      "name": "Customer order"
+    },
+    "customers_activate_account": {
+      "name": "Activate account"
+    },
+    "customers_reset_password": {
+      "name": "Reset password"
+    },
+    "customers_recover_password": {
+      "name": "Recover password"
+    },
+    "main_collection": {
+      "name": "Collection",
+      "show_description": "Show collection description",
+      "description_truncate": "Truncate description to plain text",
+      "description_word_limit": "Truncated description length (words)",
+      "products_per_page": "Products per page",
+      "columns_desktop": "Columns on large screens",
+      "show_sort": "Show sort control",
+      "show_filters": "Show storefront filters",
+      "show_filters_info": "Configure filters in Shopify admin: Search & Discovery → Filters."
+    },
     "product_benefits": {
       "name": "Product benefits",
       "benefit": "Benefit",

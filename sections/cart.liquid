@@ -1,37 +1,127 @@
 {% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
-
+  Cart page: Valentina layout + standard POST form to {{ routes.cart_url }}.
   https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+<section class="pb-24 md:pb-32 bg-v-cream" data-section-type="main-cart" data-section-id="{{ section.id }}">
+  <div class="max-w-screen-xl mx-auto px-6 md:px-10 pt-10 md:pt-14">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-5">
+        {{ section.settings.eyebrow }}
+      </p>
+    {%- endif -%}
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+    <h1 class="font-serif text-black font-light mb-12 md:mb-16" style="font-size: clamp(2rem, 4.5vw, 3.25rem);">
+      {{ 'cart.title' | t }}
+    </h1>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+    {%- if cart.item_count == 0 -%}
+      <div class="flex flex-col items-center justify-center text-center py-16 md:py-24 border border-black/10 bg-white/30 max-w-lg mx-auto px-8">
+        <p class="font-serif text-xl font-light italic mb-4 text-black/70">
+          {{ 'cart.empty_title' | t }}
+        </p>
+        <p class="text-black/40 text-[12px] tracking-[.05em] mb-9 max-w-[28ch] leading-relaxed">
+          {{ 'cart.empty_body' | t }}
+        </p>
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="inline-block text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 px-10 py-[14px] hover:border-v-rose hover:text-v-rose transition-all duration-300"
+        >
+          {{- 'cart.start_shopping' | t -}}
+        </a>
+      </div>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" id="CartPageForm-{{ section.id }}">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          <div class="lg:col-span-7 xl:col-span-8">
+            {%- for item in cart.items -%}
+              {% render 'cart-line-item', item: item, line_index: forloop.index, section_id: section.id %}
+            {%- endfor -%}
+          </div>
+
+          <div class="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-28 space-y-6 border border-black/10 bg-white/40 p-6 md:p-8">
+            {%- if section.settings.show_note -%}
+              <div>
+                <label for="CartNote-{{ section.id }}" class="block text-[8px] tracking-[.32em] uppercase text-black/40 font-light mb-2">
+                  {{ 'cart.order_note' | t }}
+                </label>
+                <textarea
+                  name="note"
+                  id="CartNote-{{ section.id }}"
+                  rows="4"
+                  class="w-full border border-black/15 px-4 py-3 text-sm font-light text-black bg-white focus:outline-none focus:border-v-rose resize-y min-h-[100px]"
+                  placeholder="{{ 'cart.order_note_placeholder' | t }}"
+                >{{ cart.note }}</textarea>
+              </div>
+            {%- endif -%}
+
+            <div class="flex items-center justify-between gap-4 pt-2 border-t border-black/8">
+              <p class="text-[10px] tracking-[.36em] uppercase font-light text-black/45">
+                {{ 'cart.subtotal' | t }}
+              </p>
+              <p class="font-serif text-2xl font-light text-black">{{ cart.total_price | money }}</p>
+            </div>
+
+            <p class="text-[10px] text-black/40 font-light tracking-[.04em] leading-relaxed">
+              {{ 'cart.shipping_note' | t }}
+            </p>
+
+            {%- if section.settings.show_continue -%}
+              <a
+                href="{{ routes.all_products_collection_url }}"
+                class="block text-center w-full text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 py-[14px] hover:border-v-rose hover:text-v-rose transition-all duration-300"
+              >
+                {{ 'cart.continue_shopping' | t }}
+              </a>
+            {%- endif -%}
+
+            <div class="flex flex-col gap-3 pt-2">
+              <button
+                type="submit"
+                name="update"
+                class="w-full text-black text-[10px] tracking-[.38em] uppercase font-light border border-black/20 py-[14px] hover:bg-black hover:text-white transition-all duration-500 min-h-[48px]"
+              >
+                {{ 'cart.update_cart' | t }}
+              </button>
+              <button
+                type="submit"
+                name="checkout"
+                class="w-full text-white text-[10px] tracking-[.38em] uppercase font-light bg-v-rose py-[14px] hover:bg-black transition-all duration-500 min-h-[48px]"
+              >
+                {{ 'cart.checkout' | t }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
 
 {% schema %}
 {
-  "name": "t:general.cart",
-  "settings": []
+  "name": "t:sections.main_cart.name",
+  "tag": "section",
+  "class": "section-main-cart",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Your ritual"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "t:sections.main_cart.show_note",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_continue",
+      "label": "t:sections.main_cart.show_continue",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

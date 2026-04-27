@@ -1,0 +1,24 @@
+{% comment %}
+  Reusable breadcrumb: Home → optional parent → current (rose).
+  @param current_label {String} Current page label (plain text, already translated if needed)
+  @param parent_url {String} optional
+  @param parent_label {String} optional
+{% endcomment %}
+
+<div class="pt-24 pb-6 px-6 md:px-10 bg-v-cream" data-breadcrumb>
+  <div class="max-w-screen-xl mx-auto">
+    <nav class="flex items-center gap-2.5 flex-wrap" aria-label="{{ 'sections.simple_breadcrumb.nav_aria' | t }}">
+      <a href="{{ routes.root_url }}" class="text-[8.5px] tracking-[.32em] uppercase text-black/28 font-light hover:text-v-rose transition-colors">
+        {{ 'sections.simple_breadcrumb.home' | t }}
+      </a>
+      {%- if parent_url != blank and parent_label != blank -%}
+        <span class="text-black/18 text-[9px]" aria-hidden="true">/</span>
+        <a href="{{ parent_url }}" class="text-[8.5px] tracking-[.32em] uppercase text-black/28 font-light hover:text-v-rose transition-colors">
+          {{- parent_label -}}
+        </a>
+      {%- endif -%}
+      <span class="text-black/18 text-[9px]" aria-hidden="true">/</span>
+      <span class="text-[8.5px] tracking-[.32em] uppercase text-v-rose font-light">{{ current_label }}</span>
+    </nav>
+  </div>
+</div>

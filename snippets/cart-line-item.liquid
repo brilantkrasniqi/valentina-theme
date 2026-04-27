@@ -1,0 +1,102 @@
+{% comment %}
+  Cart page line: one updates[] input per row, same order as cart.items.
+  Params: item (line_item), line_index (forloop.index), section_id (optional)
+{% endcomment %}
+
+{%- liquid
+  assign sid = section_id | default: 'cart'
+  assign qty_min = 1
+  assign qty_step = 1
+  assign qty_max = ''
+  if item.variant.quantity_rule != blank
+    if item.variant.quantity_rule.min != blank
+      assign qty_min = item.variant.quantity_rule.min
+    endif
+    if item.variant.quantity_rule.increment != blank
+      assign qty_step = item.variant.quantity_rule.increment
+    endif
+    if item.variant.quantity_rule.max != blank
+      assign qty_max = item.variant.quantity_rule.max
+    endif
+  endif
+-%}
+
+<div class="flex flex-col sm:flex-row gap-5 py-8 border-b border-black/8 first:pt-0" data-cart-page-line>
+  <a href="{{ item.url }}" class="shrink-0 w-full sm:w-28 h-36 sm:h-32 bg-[#f0ebe9] overflow-hidden block">
+    {%- if item.image != blank -%}
+      {{
+        item.image
+        | image_url: width: 400
+        | image_tag:
+          class: 'w-full h-full object-cover',
+          widths: '120, 200, 280, 400',
+          sizes: '(min-width: 640px) 7rem, 100vw',
+          loading: 'lazy',
+          alt: item.image.alt | default: item.product.title
+      }}
+    {%- endif -%}
+  </a>
+
+  <div class="flex-1 min-w-0 flex flex-col gap-3">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <a href="{{ item.url }}" class="font-serif text-lg sm:text-[1.05rem] font-light leading-snug text-black hover:text-v-rose transition-colors">
+          {{- item.product.title -}}
+        </a>
+        {%- unless item.variant.title contains 'Default' -%}
+          <p class="text-black/45 text-[11px] tracking-[.04em] mt-1">{{ item.variant.title }}</p>
+        {%- endunless -%}
+
+        {%- unless item.properties == empty -%}
+          <ul class="mt-2 space-y-1 text-[11px] text-black/40 font-light">
+            {%- for p in item.properties -%}
+              {%- assign prop_val = p.last | default: '' | strip -%}
+              {%- if prop_val != blank -%}
+                <li><span class="text-black/55">{{ p.first }}:</span> {{ prop_val }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endunless -%}
+
+        {%- if item.selling_plan_allocation != null -%}
+          <p class="text-[10px] tracking-[.2em] uppercase text-black/35 mt-2">
+            {{ item.selling_plan_allocation.selling_plan.name }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      <a
+        href="{{ item.url_to_remove }}"
+        class="shrink-0 text-[10px] tracking-[.28em] uppercase font-light text-black/40 hover:text-v-rose transition-colors"
+      >
+        {{ 'cart.remove' | t }}
+      </a>
+    </div>
+
+    <div class="flex flex-wrap items-end justify-between gap-4 mt-auto pt-2">
+      <div class="flex flex-col gap-1">
+        <label class="text-[8px] tracking-[.32em] uppercase text-black/35 font-light" for="updates-{{ sid }}-{{ line_index }}">
+          {{- 'cart.quantity_label' | t -}}
+        </label>
+        <input
+          type="number"
+          name="updates[]"
+          id="updates-{{ sid }}-{{ line_index }}"
+          value="{{ item.quantity }}"
+          min="{{ qty_min }}"
+          step="{{ qty_step }}"
+          {% if qty_max != blank %}
+            max="{{ qty_max }}"
+          {% endif %}
+          class="w-24 border border-black/15 px-3 py-2 text-sm font-light bg-white text-black focus:outline-none focus:border-v-rose"
+        >
+      </div>
+      <div class="text-right">
+        {%- if item.original_line_price != item.final_line_price -%}
+          <p class="text-sm text-black/30 line-through font-light">{{ item.original_line_price | money }}</p>
+        {%- endif -%}
+        <p class="text-base font-light text-black">{{ item.final_line_price | money }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+{%- assign crumb = 'sections.customers_account.breadcrumb' | t -%}
+{% render 'breadcrumbs', current_label: crumb %}
+
+<section class="pb-24 px-6 md:px-10 bg-v-cream" data-section-type="customers-account">
+  <div class="max-w-4xl mx-auto pt-6">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+      <div>
+        <h1 class="font-serif text-3xl md:text-4xl font-light text-black">
+          {{ 'customers.account.title' | t }}
+        </h1>
+        {%- if customer.first_name != blank -%}
+          <p class="text-black/45 text-sm font-light mt-2">{{ 'customers.account.welcome' | t: name: customer.first_name }}</p>
+        {%- endif -%}
+      </div>
+      <div class="flex flex-wrap gap-4 text-[10px] tracking-[.28em] uppercase font-light">
+        <a href="{{ routes.account_addresses_url }}" class="text-black/50 border border-black/15 px-5 py-2.5 hover:border-v-rose hover:text-v-rose transition-colors">{{ 'customers.account.view_addresses' | t }}</a>
+        <a href="{{ routes.account_logout_url }}" class="text-black/50 hover:text-v-rose transition-colors">{{ 'customers.account.log_out' | t }}</a>
+      </div>
+    </div>
+
+    <div class="border border-black/10 bg-white/40 overflow-hidden">
+      <h2 class="text-[9px] tracking-[.36em] uppercase text-black/40 font-light px-6 py-4 border-b border-black/8">{{ 'customers.account.orders_title' | t }}</h2>
+
+      {% paginate customer.orders by 20 %}
+        {%- if customer.orders.size == 0 -%}
+          <p class="px-6 py-12 text-center text-sm text-black/45 font-light">{{ 'customers.account.none' | t }}</p>
+        {%- else -%}
+          <ul class="divide-y divide-black/8" role="list">
+            {%- for order in customer.orders -%}
+              <li class="px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <a href="{{ order.customer_url }}" class="font-serif text-lg font-light text-black hover:text-v-rose transition-colors">
+                    {{ 'customers.account.order_number' | t: number: order.name }}
+                  </a>
+                  <p class="text-[11px] text-black/40 font-light mt-1">{{ order.created_at | date: format: 'abbreviated_date' }}</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-4 text-sm font-light">
+                  <span class="text-black/50">{{ order.financial_status_label }}</span>
+                  <span class="text-black">{{ order.total_price | money_with_currency }}</span>
+                  <a href="{{ order.customer_url }}" class="text-[9px] tracking-[.3em] uppercase text-v-rose hover:text-black transition-colors">{{ 'customers.account.view_order' | t }}</a>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="px-6 py-4 border-t border-black/8 flex flex-wrap justify-center gap-2" aria-label="{{ 'collections.pagination_nav' | t }}">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}" class="text-[9px] tracking-[.32em] uppercase px-3 py-2 border border-black/15 hover:border-v-rose">{{ 'collections.pagination_previous' | t }}</a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="text-[9px] uppercase px-3 py-2 border border-black/15 hover:bg-black hover:text-white">{{ part.title }}</a>
+              {%- else -%}
+                <span class="text-[9px] uppercase px-3 py-2 {% if part.title == paginate.current_page %}border border-v-rose text-v-rose{% else %}text-black/25{% endif %}">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}" class="text-[9px] tracking-[.32em] uppercase px-3 py-2 border border-black/15 hover:border-v-rose">{{ 'collections.pagination_next' | t }}</a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {% endpaginate %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.customers_account.name",
+  "tag": "section",
+  "class": "section-customers-account",
+  "settings": [],
+  "enabled_on": {
+    "templates": ["customers/account"]
+  }
+}
+{% endschema %}
