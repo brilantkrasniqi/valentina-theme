@@ -56,7 +56,11 @@
           type="submit"
           class="bg-v-rose text-white text-[10px] tracking-[.38em] uppercase font-light px-9 py-[14px] hover:bg-white hover:text-black transition-all duration-500"
         >
-          {{ section.settings.button_label | default: 'newsletter.subscribe' | t }}
+          {%- if section.settings.button_label != blank -%}
+            {{- section.settings.button_label -}}
+          {%- else -%}
+            {{- 'newsletter.subscribe' | t -}}
+          {%- endif -%}
         </button>
       </div>
     {%- endform -%}

@@ -1,50 +1,719 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+{%- liquid
+  assign sid = section.id | replace: '__', '-' | replace: '.', '-'
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'ProductForm-' | append: sid
+  assign gallery_id = 'pg-main-' | append: sid
+  assign thumbs_id = 'pg-thumbs-' | append: sid
+  assign cta_anchor_id = 'cta-anchor-' | append: sid
+  assign sticky_id = 'sticky-bar-' | append: sid
+  assign show_desc = section.settings.show_hero_description
+  assign add_to_cart_text = section.settings.add_to_cart_label
+  if add_to_cart_text == blank
+    assign add_to_cart_text = 'products.add_to_ritual' | t
+  endif
+  assign sold_out_text = 'products.sold_out' | t
+-%}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
+{%- comment -%}
+  Judge.me: when "Use Judge.me for stars" is enabled, install the app and use its app block below,
+  or add Judge.me's snippet to an app embed. The .product-reviews-summary wrapper stays for widget targeting.
+{%- endcomment -%}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+<section
+  id="product-hero-{{ sid }}"
+  class="pb-24 px-6 md:px-10 bg-v-cream"
+  data-main-product
+  data-section-id="{{ section.id }}"
+  data-section-type="main-product"
+>
+  <div class="max-w-screen-xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-20 items-start">
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+      {%- comment -%} ── Gallery ── {%- endcomment -%}
+      <div class="flex flex-col gap-3 lg:sticky lg:top-28">
+        {%- if product.media.size > 0 -%}
+          <div
+            id="{{ gallery_id }}"
+            class="splide product-gallery-main splide-product relative"
+            aria-label="{{ product.title | escape }} — {{ 'products.gallery_aria' | t }}"
+          >
+            {%- if section.settings.badge != blank -%}
+              <span class="absolute top-5 left-5 bg-black text-white text-[7.5px] tracking-[.28em] uppercase px-3 py-[4px] z-10 pointer-events-none">
+                {{- section.settings.badge -}}
+              </span>
+            {%- endif -%}
+            {%- if section.settings.show_drag_hint -%}
+              <div class="absolute bottom-5 right-5 z-10 flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 pointer-events-none">
+                <svg class="w-3 h-3 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
+                </svg>
+                <span class="text-[7.5px] tracking-[.3em] uppercase text-black/35 font-light">{{ 'products.drag' | t }}</span>
+              </div>
+            {%- endif -%}
+            <div class="splide__track">
+              <ul class="splide__list">
+                {%- for media in product.media -%}
+                  {%- if media.media_type == 'image' -%}
+                    <li class="splide__slide">
+                      <div class="aspect-[4/5] relative bg-[#f0ebe9]">
+                        {{
+                          media.preview_image
+                          | image_url: width: 1600
+                          | image_tag:
+                            class: 'absolute inset-0 w-full h-full object-cover',
+                            widths: '400, 800, 1200, 1600',
+                            sizes: '(min-width: 1024px) 45vw, 100vw',
+                            loading: 'lazy',
+                            alt: media.alt | default: product.title | escape
+                        }}
+                      </div>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+          {%- if product.media.size > 1 -%}
+            <div
+              id="{{ thumbs_id }}"
+              class="splide product-gallery-thumbs splide-product-thumbs"
+              aria-label="{{ 'products.thumbnails_aria' | t }}"
+            >
+              <div class="splide__track">
+                <ul class="splide__list">
+                  {%- for media in product.media -%}
+                    {%- if media.media_type == 'image' -%}
+                      <li class="splide__slide" style="height:120px;">
+                        {{
+                          media.preview_image
+                          | image_url: width: 400
+                          | image_tag:
+                            class: 'w-full h-full object-cover',
+                            widths: '120, 240, 400',
+                            sizes: '120px',
+                            loading: 'lazy',
+                            alt: ''
+                        }}
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          <div class="aspect-[4/5] bg-[#f0ebe9] flex items-center justify-center text-black/30 text-sm font-light">
+            {{ 'products.no_images' | t }}
+          </div>
+        {%- endif -%}
+      </div>
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
+      {%- comment -%} ── Product info ── {%- endcomment -%}
+      <div class="flex flex-col pt-2 lg:pt-6">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="text-[9px] tracking-[.5em] uppercase text-black/28 font-light mb-3">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
 
-    <input type="text" name="quantity" min="1" value="1">
+        <h1 class="font-serif font-light leading-none mb-4" style="font-size: clamp(2.8rem,6vw,4.5rem);">
+          {{ product.title }}
+        </h1>
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
+        {%- if section.settings.tagline != blank -%}
+          <p class="font-serif text-[1.2rem] font-light italic text-black/45 mb-7">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+
+        {%- comment -%} Judge.me + optional fallback stars {%- endcomment -%}
+        <div class="product-reviews-summary mb-7" data-judgeme-stars data-product-id="{{ product.id }}">
+          {%- if section.settings.use_judgeme_stars == false -%}
+            <div class="flex items-center gap-3" data-product-reviews-fallback>
+              {%- if section.settings.show_fallback_stars -%}
+                <div class="flex items-center gap-[3px]" aria-hidden="true">
+                  {%- for i in (1..5) -%}
+                    <svg class="w-3 h-3 fill-v-rose" viewBox="0 0 20 20"><path d="M10 1l2.39 4.84 5.35.78-3.87 3.77.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.26 6.62l5.35-.78z"/></svg>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+              {%- if section.settings.fallback_review_line != blank -%}
+                <span class="text-[9px] tracking-[.25em] uppercase text-black/28 font-light">
+                  {{ section.settings.fallback_review_line }}
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <p class="font-serif text-[2rem] font-light text-black mb-8" data-product-price>
+          {{ current_variant.price | money }}
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="text-base text-black/35 line-through ml-2" data-compare-at>{{ current_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+        </p>
+
+        {%- if show_desc and product.description != blank -%}
+          <div class="text-black/50 text-[13.5px] font-light leading-[1.95] mb-9 max-w-md rte">
+            {{ product.description }}
+          </div>
+        {%- elsif section.settings.hero_description != blank -%}
+          <div class="text-black/50 text-[13.5px] font-light leading-[1.95] mb-9 max-w-md rte">
+            {{ section.settings.hero_description }}
+          </div>
+        {%- endif -%}
+
+        {%- liquid
+          assign chip_count = 0
+          if section.settings.chip_1 != blank
+            assign chip_count = chip_count | plus: 1
+          endif
+          if section.settings.chip_2 != blank
+            assign chip_count = chip_count | plus: 1
+          endif
+          if section.settings.chip_3 != blank
+            assign chip_count = chip_count | plus: 1
+          endif
+        -%}
+        {%- if chip_count > 0 -%}
+          <div class="flex flex-wrap gap-2 mb-10">
+            {%- if section.settings.chip_1 != blank -%}
+              <span class="text-[8px] tracking-[.3em] uppercase border border-black/10 px-4 py-[7px] text-black/38 font-light">{{ section.settings.chip_1 }}</span>
+            {%- endif -%}
+            {%- if section.settings.chip_2 != blank -%}
+              <span class="text-[8px] tracking-[.3em] uppercase border border-black/10 px-4 py-[7px] text-black/38 font-light">{{ section.settings.chip_2 }}</span>
+            {%- endif -%}
+            {%- if section.settings.chip_3 != blank -%}
+              <span class="text-[8px] tracking-[.3em] uppercase border border-black/10 px-4 py-[7px] text-black/38 font-light">{{ section.settings.chip_3 }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} App blocks (e.g. Judge.me) — appear before variant picker {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <div {{ block.shopify_attributes }} class="mb-8">
+              {% render block %}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {% form 'product', product, id: product_form_id, class: 'flex flex-col gap-0', novalidate: 'novalidate' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+          {%- if product.has_only_default_variant == false -%}
+            <div class="mb-10" data-variant-picker>
+              <div class="flex items-baseline justify-between mb-4">
+                <p class="text-[9px] tracking-[.38em] uppercase text-black/45 font-light">{{ section.settings.option_label | default: 'Size' }}</p>
+                <p class="text-[9px] tracking-[.25em] uppercase text-black/28 font-light" data-variant-label>{{ current_variant.title }}</p>
+              </div>
+              <div class="flex flex-wrap gap-3" role="radiogroup" aria-label="{{ section.settings.option_label | escape }}">
+                {%- for variant in product.variants -%}
+                  <button
+                    type="button"
+                    class="size-btn flex-1 min-w-[5.5rem] flex flex-col items-center gap-1.5 border py-4 px-2 transition-all duration-250 hover:border-black/40 {% if variant == current_variant %}active-size border-black{% else %}border-black/10{% endif %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-variant-available="{{ variant.available }}"
+                    aria-pressed="{% if variant == current_variant %}true{% else %}false{% endif %}"
+                    {% unless variant.available %}disabled aria-disabled="true"{% endunless %}
+                  >
+                    <span class="text-[8px] tracking-[.32em] uppercase font-light {% if variant == current_variant %}text-black{% else %}text-black/50{% endif %}">
+                      {{ variant.title }}
+                    </span>
+                    <span class="font-serif text-base font-light {% if variant == current_variant %}text-black{% else %}text-black/70{% endif %}">
+                      {{ variant.price | money }}
+                    </span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div id="{{ cta_anchor_id }}" class="flex items-stretch gap-3 mb-10" data-cta-anchor>
+            <div class="flex items-center border border-black/12 shrink-0">
+              <button type="button" class="qty-minus w-11 h-full min-h-[48px] flex items-center justify-center text-black/35 hover:text-black transition-colors duration-200 text-lg font-light" aria-label="{{ 'cart.decrease' | t }}">−</button>
+              <input type="hidden" name="quantity" value="1" data-qty-input>
+              <span class="qty-display w-9 text-center text-sm font-light select-none" data-qty-display>1</span>
+              <button type="button" class="qty-plus w-11 h-full min-h-[48px] flex items-center justify-center text-black/35 hover:text-black transition-colors duration-200 text-lg font-light" aria-label="{{ 'cart.increase' | t }}">+</button>
+            </div>
+            <button
+              type="submit"
+              name="add"
+              class="flex-1 bg-black text-white text-[10px] tracking-[.38em] uppercase font-light py-4 hover:bg-v-rose transition-all duration-500 disabled:opacity-40 disabled:cursor-not-allowed"
+              data-product-submit
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ add_to_cart_text }}
+              {%- else -%}
+                {{ 'products.sold_out' | t }}
+              {%- endif -%}
+            </button>
+          </div>
+
+          {{ form | payment_button }}
+        {% endform %}
+
+        <div class="grid grid-cols-3 gap-4 mb-10 py-7 border-y border-black/7">
+          <div class="text-center">
+            <svg class="w-5 h-5 mx-auto mb-2 stroke-black/35" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            </svg>
+            <p class="text-[8px] tracking-[.28em] uppercase text-black/35 font-light leading-relaxed">{{ section.settings.reassurance_1 | newline_to_br }}</p>
+          </div>
+          <div class="text-center border-x border-black/7">
+            <svg class="w-5 h-5 mx-auto mb-2 stroke-black/35" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            <p class="text-[8px] tracking-[.28em] uppercase text-black/35 font-light leading-relaxed">{{ section.settings.reassurance_2 | newline_to_br }}</p>
+          </div>
+          <div class="text-center">
+            <svg class="w-5 h-5 mx-auto mb-2 stroke-black/35" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <p class="text-[8px] tracking-[.28em] uppercase text-black/35 font-light leading-relaxed">{{ section.settings.reassurance_3 | newline_to_br }}</p>
+          </div>
+        </div>
+
+        {%- comment -%} Accordions from blocks {%- endcomment -%}
+        {%- assign accordion_blocks = section.blocks | where: 'type', 'accordion' -%}
+        {%- if accordion_blocks.size > 0 -%}
+          <div class="space-y-0 border-t border-black/7">
+            {%- for block in accordion_blocks -%}
+              {%- assign acc_id = 'acc-' | append: block.id -%}
+              <div class="border-b border-black/7" {{ block.shopify_attributes }}>
+                <button
+                  type="button"
+                  class="accord-btn w-full flex items-center justify-between py-5 text-left"
+                  data-acc-target="{{ acc_id }}"
+                  aria-expanded="false"
+                  aria-controls="{{ acc_id }}"
+                >
+                  <span class="text-[10px] tracking-[.35em] uppercase font-light text-black/60">{{ block.settings.heading }}</span>
+                  <span class="accord-icon text-black/30 text-xl leading-none" aria-hidden="true">+</span>
+                </button>
+                <div id="{{ acc_id }}" class="accord-body overflow-hidden" style="height:0">
+                  <div class="text-black/45 text-sm font-light leading-[1.9] pb-6 rte">
+                    {{ block.settings.body }}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.show_sticky_bar -%}
+    <div
+      id="{{ sticky_id }}"
+      class="product-sticky-bar fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-black/8 px-6 md:px-10 py-4 translate-y-full transition-transform duration-[450ms] ease-[cubic-bezier(.25,.46,.45,.94)]"
+      data-sticky-bar
+      hidden
+    >
+      <div class="max-w-screen-xl mx-auto flex items-center justify-between gap-6">
+        <div class="hidden sm:flex items-center gap-5 shrink-0">
+          <div class="w-10 h-12 overflow-hidden bg-[#f0ebe9] shrink-0">
+            {%- if product.featured_media.preview_image -%}
+              {{
+                product.featured_media.preview_image
+                | image_url: width: 120
+                | image_tag: class: 'w-full h-full object-cover', widths: '80, 120', alt: product.title
+              }}
+            {%- endif -%}
+          </div>
+          <div>
+            <p class="font-serif text-base font-light leading-none mb-0.5">{{ product.title }}</p>
+            <p class="text-[8.5px] tracking-[.3em] uppercase text-black/35 font-light" data-sticky-variant-label>{{ current_variant.title }}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 flex-1 sm:flex-initial justify-end">
+          <span class="font-serif text-xl font-light text-black hidden sm:inline" data-sticky-price>{{ current_variant.price | money }}</span>
+          <button
+            type="button"
+            class="product-sticky-submit bg-black text-white text-[9.5px] tracking-[.38em] uppercase font-light px-8 sm:px-10 py-3.5 hover:bg-v-rose transition-all duration-500 whitespace-nowrap"
+            data-sticky-submit
+          >
+            {{ add_to_cart_text }}
+          </button>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script type="application/json" data-product-json>
+    {{ product | json }}
+  </script>
+</section>
+
+{% stylesheet %}
+  .size-btn { border-color: rgba(0, 0, 0, 0.1); }
+  .size-btn.active-size { border-color: #000; }
+  .size-btn.active-size span { color: #000 !important; }
+  .accord-body { transition: height 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .accord-icon { transition: transform 0.38s ease; }
+  .accord-icon.is-open { transform: rotate(45deg); }
+  .product-sticky-bar.is-visible { transform: translateY(0); }
+  .product-gallery-main .splide__track { background: #f0ebe9; }
+  .product-gallery-thumbs .splide__slide {
+    opacity: 0.45;
+    cursor: pointer;
+    overflow: hidden;
+    background: #f0ebe9;
+    transition: opacity 0.3s ease;
+    outline: 1.5px solid transparent;
+    outline-offset: 2px;
+  }
+  .product-gallery-thumbs .splide__slide.is-active {
+    opacity: 1;
+    outline-color: #deaaa6;
+  }
+  .product-gallery-thumbs .splide__slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .product-gallery-thumbs .splide__slide:hover img {
+    transform: scale(1.05);
+  }
+  /* Before Splide mounts (deferred script), show first slide; avoids empty gallery */
+  .product-gallery-main:not(.is-initialized) .splide__list {
+    display: block;
+  }
+  .product-gallery-main:not(.is-initialized) .splide__slide:not(:first-child) {
+    display: none;
+  }
+{% endstylesheet %}
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-main-product][data-section-id="{{ section.id }}"]');
+    if (!root) return;
+
+    var ADD_LABEL = {{ add_to_cart_text | json }};
+    var SOLD_OUT = {{ sold_out_text | json }};
+    var galleryEl = document.getElementById('{{ gallery_id }}');
+    var thumbsEl = document.getElementById('{{ thumbs_id }}');
+    var jsonEl = root.querySelector('[data-product-json]');
+    var productData = jsonEl ? JSON.parse(jsonEl.textContent) : null;
+    var form = document.getElementById('{{ product_form_id }}');
+    var variantInput = root.querySelector('[data-variant-id-input]');
+    var priceEl = root.querySelector('[data-product-price]');
+    var variantLabelEl = root.querySelector('[data-variant-label]');
+    var qtyInput = root.querySelector('[data-qty-input]');
+    var qtyDisplay = root.querySelector('[data-qty-display]');
+    var submitBtn = root.querySelector('[data-product-submit]');
+    var stickyBar = document.getElementById('{{ sticky_id }}');
+    var ctaAnchor = document.getElementById('{{ cta_anchor_id }}');
+    var stickyPrice = root.querySelector('[data-sticky-price]');
+    var stickyLabel = root.querySelector('[data-sticky-variant-label]');
+    var stickySubmit = root.querySelector('[data-sticky-submit]');
+
+    function formatMoney(cents) {
+      var currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'USD';
+      try {
+        return (cents / 100).toLocaleString(document.documentElement.lang || 'en', {
+          style: 'currency',
+          currency: currency,
+        });
+      } catch (e) {
+        return currency + ' ' + (cents / 100).toFixed(2);
+      }
+    }
+
+    function findVariant(id) {
+      if (!productData || !productData.variants) return null;
+      var vid = String(id);
+      for (var i = 0; i < productData.variants.length; i++) {
+        if (String(productData.variants[i].id) === vid) return productData.variants[i];
+      }
+      return null;
+    }
+
+    function applyVariant(variant) {
+      if (!variant || !variantInput) return;
+      variantInput.value = variant.id;
+      if (priceEl) {
+        var html = formatMoney(variant.price);
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          html += ' <span class="text-base text-black/35 line-through ml-2">' + formatMoney(variant.compare_at_price) + '</span>';
+        }
+        priceEl.innerHTML = html;
+      }
+      if (variantLabelEl) variantLabelEl.textContent = variant.title;
+      if (stickyPrice) stickyPrice.textContent = formatMoney(variant.price);
+      if (stickyLabel) stickyLabel.textContent = variant.title;
+      root.querySelectorAll('.size-btn').forEach(function (btn) {
+        var on = String(btn.getAttribute('data-variant-id')) === String(variant.id);
+        btn.classList.toggle('active-size', on);
+        btn.classList.toggle('border-black', on);
+        btn.classList.toggle('border-black/10', !on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (submitBtn) {
+        submitBtn.disabled = !variant.available;
+        submitBtn.textContent = variant.available ? ADD_LABEL : SOLD_OUT;
+      }
+    }
+
+    root.querySelectorAll('.size-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var v = findVariant(btn.getAttribute('data-variant-id'));
+        if (v) applyVariant(v);
+      });
+    });
+
+    var qty = 1;
+    if (qtyInput) qtyInput.value = '1';
+    root.querySelector('.qty-minus') &&
+      root.querySelector('.qty-minus').addEventListener('click', function () {
+        if (qty > 1) {
+          qty--;
+          if (qtyDisplay) qtyDisplay.textContent = String(qty);
+          if (qtyInput) qtyInput.value = String(qty);
+        }
+      });
+    root.querySelector('.qty-plus') &&
+      root.querySelector('.qty-plus').addEventListener('click', function () {
+        qty++;
+        if (qtyDisplay) qtyDisplay.textContent = String(qty);
+        if (qtyInput) qtyInput.value = String(qty);
+      });
+
+    function initProductGallery() {
+      if (typeof window.Splide === 'undefined') return false;
+      if (!galleryEl || galleryEl.getAttribute('data-splide-initialised') === '1') return true;
+      var slideCount = galleryEl.querySelectorAll('.splide__slide').length;
+      if (slideCount > 1 && thumbsEl) {
+        var main = new Splide('#{{ gallery_id }}', {
+          type: 'fade',
+          rewind: true,
+          pagination: false,
+          arrows: false,
+          drag: true,
+        });
+        var thumbs = new Splide('#{{ thumbs_id }}', {
+          rewind: true,
+          fixedHeight: 120,
+          gap: 10,
+          pagination: false,
+          arrows: false,
+          isNavigation: true,
+          perPage: 3,
+          breakpoints: { 480: { fixedHeight: 90 } },
+        });
+        main.sync(thumbs);
+        main.mount();
+        thumbs.mount();
+      } else {
+        new Splide('#{{ gallery_id }}', { type: 'fade', rewind: true, pagination: false, arrows: false }).mount();
+      }
+      galleryEl.setAttribute('data-splide-initialised', '1');
+      return true;
+    }
+    if (!initProductGallery()) {
+      var runGalleryInit = function () {
+        if (initProductGallery()) return;
+        var poll = setInterval(function () {
+          if (initProductGallery()) clearInterval(poll);
+        }, 50);
+        setTimeout(function () {
+          clearInterval(poll);
+        }, 8000);
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runGalleryInit);
+      } else {
+        runGalleryInit();
+      }
+    }
+
+    root.querySelectorAll('.accord-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tid = btn.getAttribute('data-acc-target');
+        var panel = tid ? document.getElementById(tid) : null;
+        var icon = btn.querySelector('.accord-icon');
+        var inner = panel ? panel.querySelector('.rte') : null;
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+        root.querySelectorAll('.accord-body').forEach(function (b) {
+          b.style.height = '0px';
+        });
+        root.querySelectorAll('.accord-btn').forEach(function (b) {
+          b.setAttribute('aria-expanded', 'false');
+          var ic = b.querySelector('.accord-icon');
+          if (ic) ic.classList.remove('is-open');
+        });
+
+        if (!isOpen && panel && inner) {
+          var h = inner.offsetHeight;
+          panel.style.height = h + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+          if (icon) icon.classList.add('is-open');
+        }
+      });
+    });
+
+    if (stickyBar && ctaAnchor && {{ section.settings.show_sticky_bar | json }}) {
+      stickyBar.removeAttribute('hidden');
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            var show = !entry.isIntersecting;
+            stickyBar.classList.toggle('is-visible', show);
+          });
+        },
+        { threshold: 0 }
+      );
+      io.observe(ctaAnchor);
+      stickySubmit &&
+        stickySubmit.addEventListener('click', function () {
+          if (form && submitBtn && !submitBtn.disabled) submitBtn.click();
+        });
+    }
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "t:general.product",
-  "settings": [],
+  "name": "t:sections.main_product.name",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Night Ritual"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "t:labels.tagline",
+      "default": "Wake up to skin you won't recognise."
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "t:sections.main_product.badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_drag_hint",
+      "label": "t:sections.main_product.show_drag_hint",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_judgeme_stars",
+      "label": "t:sections.main_product.use_judgeme_stars",
+      "default": false,
+      "info": "t:sections.main_product.use_judgeme_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fallback_stars",
+      "label": "t:sections.main_product.show_fallback_stars",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "fallback_review_line",
+      "label": "t:sections.main_product.fallback_review_line",
+      "default": "4.9 · 128 Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero_description",
+      "label": "t:sections.main_product.show_product_description",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "hero_description",
+      "label": "t:sections.main_product.hero_description"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_product.chips_header"
+    },
+    {
+      "type": "text",
+      "id": "chip_1",
+      "label": "t:sections.main_product.chip_1"
+    },
+    {
+      "type": "text",
+      "id": "chip_2",
+      "label": "t:sections.main_product.chip_2"
+    },
+    {
+      "type": "text",
+      "id": "chip_3",
+      "label": "t:sections.main_product.chip_3"
+    },
+    {
+      "type": "text",
+      "id": "option_label",
+      "label": "t:sections.main_product.option_label",
+      "default": "Size"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "t:labels.cta_label",
+      "default": "Add to Ritual"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_bar",
+      "label": "t:sections.main_product.show_sticky_bar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_product.reassurance_header"
+    },
+    {
+      "type": "textarea",
+      "id": "reassurance_1",
+      "label": "t:sections.main_product.reassurance_1",
+      "default": "Free shipping\nover €80"
+    },
+    {
+      "type": "textarea",
+      "id": "reassurance_2",
+      "label": "t:sections.main_product.reassurance_2",
+      "default": "30-day\nskin promise"
+    },
+    {
+      "type": "textarea",
+      "id": "reassurance_3",
+      "label": "t:sections.main_product.reassurance_3",
+      "default": "Cruelty-free\n& vegan"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "accordion",
+      "name": "t:sections.main_product.accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:labels.heading",
+          "default": "The Promise"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "t:labels.body"
+        }
+      ]
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

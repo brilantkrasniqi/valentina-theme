@@ -1,4 +1,16 @@
-<section class="py-32 px-6 md:px-10 bg-v-cream" data-section-type="testimonials">
+{%- liquid
+  assign sid = section.id | replace: '__', '-' | replace: '.', '-'
+  assign is_carousel = false
+  if section.settings.layout == 'carousel'
+    assign is_carousel = true
+  endif
+  assign carousel_id = 'testimonials-splide-' | append: sid
+-%}
+
+<section
+  class="py-32 px-6 md:px-10 {% if section.settings.section_background == 'white' %}bg-white border-t border-black/5{% else %}bg-v-cream{% endif %}"
+  data-section-type="testimonials"
+>
   <div class="max-w-screen-xl mx-auto">
 
     <div class="text-center mb-20">
@@ -18,49 +30,167 @@
       {%- endif -%}
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-      {%- for block in section.blocks -%}
-        {%- liquid
-          assign delay = ''
-          if forloop.index == 1
-            assign delay = 'd1'
-          elsif forloop.index == 2
-            assign delay = 'd2'
-          elsif forloop.index == 3
-            assign delay = 'd3'
-          endif
-          assign show_divider = false
-          unless forloop.last
-            assign show_divider = true
-          endunless
-        -%}
-        <div
-          class="reveal {{ delay }} relative md:px-6 {% if show_divider %}md:border-r md:border-black/8{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          <div class="font-serif text-v-rose text-5xl font-light leading-none mb-6">&ldquo;</div>
-          <p class="font-serif text-black text-lg md:text-[1.3rem] font-light italic leading-[1.6] mb-7">
-            {{ block.settings.quote }}
-          </p>
-          <p class="text-black text-[10px] tracking-[.36em] uppercase font-light mb-1">
-            {{ block.settings.author }}
-          </p>
-          {%- if block.settings.location != blank -%}
-            <p class="text-black/35 text-[9px] tracking-[.36em] uppercase font-light">
-              {{ block.settings.location }}
-            </p>
-          {%- endif -%}
+    {%- if is_carousel -%}
+      <div
+        id="{{ carousel_id }}"
+        class="splide testimonials-splide-carousel reveal"
+        data-testimonials-splide="{{ sid }}"
+      >
+        <div class="splide__track">
+          <ul class="splide__list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'testimonial' -%}
+                <li class="splide__slide text-center" {{ block.shopify_attributes }}>
+                  <p class="font-serif text-5xl text-v-rose/35 font-light leading-none mb-6">&ldquo;</p>
+                  <p class="font-serif text-black text-lg md:text-xl font-light leading-[1.65] italic mb-9 px-4">
+                    {{ block.settings.quote }}
+                  </p>
+                  <div class="w-8 h-px bg-v-rose mx-auto mb-4"></div>
+                  <p class="text-black/28 text-[8.5px] tracking-[.32em] uppercase">
+                    {{ block.settings.author }}
+                    {%- if block.settings.location != blank -%}
+                      &nbsp;·&nbsp;{{ block.settings.location }}
+                    {%- endif -%}
+                  </p>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
         </div>
-      {%- endfor -%}
-    </div>
+      </div>
+
+      {%- if section.settings.review_cta_label != blank and section.settings.review_cta_url != blank -%}
+        <div class="text-center mt-16 reveal">
+          <a
+            href="{{ section.settings.review_cta_url }}"
+            class="ul-hover inline-flex items-center gap-3 text-black/40 text-[9px] tracking-[.35em] uppercase font-light hover:text-v-rose transition-colors duration-300"
+          >
+            {{ section.settings.review_cta_label }}
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      {%- assign testimonial_blocks = section.blocks | where: 'type', 'testimonial' -%}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+        {%- for block in testimonial_blocks -%}
+          {%- liquid
+            assign delay = ''
+            if forloop.index == 1
+              assign delay = 'd1'
+            elsif forloop.index == 2
+              assign delay = 'd2'
+            elsif forloop.index == 3
+              assign delay = 'd3'
+            endif
+          -%}
+            <div
+              class="reveal {{ delay }} relative md:px-6 {% unless forloop.last %}md:border-r md:border-black/8{% endunless %}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="font-serif text-v-rose text-5xl font-light leading-none mb-6">&ldquo;</div>
+              <p class="font-serif text-black text-lg md:text-[1.3rem] font-light italic leading-[1.6] mb-7">
+                {{ block.settings.quote }}
+              </p>
+              <p class="text-black text-[10px] tracking-[.36em] uppercase font-light mb-1">
+                {{ block.settings.author }}
+              </p>
+              {%- if block.settings.location != blank -%}
+                <p class="text-black/35 text-[9px] tracking-[.36em] uppercase font-light">
+                  {{ block.settings.location }}
+                </p>
+              {%- endif -%}
+            </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}
+        <div class="mt-12 max-w-3xl mx-auto" {{ block.shopify_attributes }}>
+          {% render block %}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 </section>
+
+{% stylesheet %}
+  .testimonials-splide-carousel {
+    padding-bottom: 2.5rem;
+  }
+  .testimonials-splide-carousel .splide__pagination {
+    bottom: 0;
+    gap: 6px;
+  }
+  .testimonials-splide-carousel .splide__pagination__page {
+    background: #deaaa6;
+    opacity: 0.28;
+    width: 5px;
+    height: 5px;
+    border-radius: 0;
+    margin: 0;
+    transition: opacity 0.3s ease;
+  }
+  .testimonials-splide-carousel .splide__pagination__page.is-active {
+    opacity: 1;
+    transform: none;
+    background: #deaaa6;
+  }
+  .testimonials-splide-carousel .splide__slide {
+    padding: 0 1.5rem;
+  }
+{% endstylesheet %}
+
+{% if is_carousel %}
+  <script>
+    (function () {
+      var el = document.querySelector('[data-testimonials-splide="{{ sid }}"]');
+      if (!el || typeof Splide === 'undefined') return;
+      if (el.dataset.splideInitialised === '1') return;
+      el.dataset.splideInitialised = '1';
+      new Splide(el, {
+        perPage: 3,
+        gap: '3rem',
+        pagination: true,
+        arrows: false,
+        rewind: true,
+        breakpoints: {
+          1024: { perPage: 2, gap: '2rem' },
+          640: { perPage: 1, gap: '1rem' },
+        },
+      }).mount();
+    })();
+  </script>
+{% endif %}
 
 {% schema %}
 {
   "name": "t:sections.testimonials.name",
   "tag": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.testimonials.layout",
+      "options": [
+        { "value": "grid", "label": "t:sections.testimonials.layout_grid" },
+        { "value": "carousel", "label": "t:sections.testimonials.layout_carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "section_background",
+      "label": "t:sections.testimonials.section_background",
+      "options": [
+        { "value": "cream", "label": "t:sections.ritual_steps.bg_cream" },
+        { "value": "white", "label": "t:sections.ritual_steps.bg_white" }
+      ],
+      "default": "cream"
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -78,13 +208,31 @@
       "id": "heading_italic",
       "label": "t:labels.heading_italic",
       "default": "transformation."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.testimonials.review_cta_header"
+    },
+    {
+      "type": "text",
+      "id": "review_cta_label",
+      "label": "t:labels.cta_label",
+      "info": "t:sections.testimonials.review_cta_info"
+    },
+    {
+      "type": "url",
+      "id": "review_cta_url",
+      "label": "t:labels.cta_url"
     }
   ],
   "blocks": [
     {
+      "type": "@app"
+    },
+    {
       "type": "testimonial",
       "name": "t:sections.testimonials.testimonial",
-      "limit": 6,
+      "limit": 8,
       "settings": [
         {
           "type": "textarea",

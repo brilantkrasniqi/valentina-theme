@@ -1,0 +1,110 @@
+<section class="py-32 px-6 md:px-10 bg-v-cream" data-section-type="product-benefits">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="text-center mb-20">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="reveal text-v-rose text-[9px] tracking-[.48em] uppercase font-light mb-5">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank or section.settings.heading_italic != blank -%}
+        <h2
+          class="reveal d1 font-serif text-black font-light"
+          style="font-size: clamp(2rem, 4.5vw, 3.5rem);"
+        >
+          {%- if section.settings.heading != blank -%}{{ section.settings.heading | newline_to_br }}{%- endif -%}
+          {%- if section.settings.heading != blank and section.settings.heading_italic != blank -%}<br>{%- endif -%}
+          {%- if section.settings.heading_italic != blank -%}<em class="italic text-v-rose">{{ section.settings.heading_italic }}</em>{%- endif -%}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-black/7 divide-y md:divide-y-0 md:divide-x divide-black/7">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign delay = 'd1'
+          if forloop.index == 2
+            assign delay = 'd2'
+          elsif forloop.index == 3
+            assign delay = 'd3'
+          endif
+        -%}
+        <div class="p-12 md:p-14 text-center reveal {{ delay }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.numeral != blank -%}
+            <p class="font-serif text-[3.5rem] font-light text-v-rose/22 leading-none mb-7">{{ block.settings.numeral }}</p>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="font-serif text-2xl font-light text-black mb-5">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.body != blank -%}
+            <p class="text-black/42 text-[13px] font-light leading-[1.9]">{{ block.settings.body }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.product_benefits.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "What You Will Feel"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Three promises\nmade while you"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "t:labels.heading_italic",
+      "default": "sleep."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "t:sections.product_benefits.benefit",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "numeral",
+          "label": "t:sections.product_benefits.numeral",
+          "default": "I"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.heading",
+          "default": "Lift & Firm"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "t:labels.body"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_benefits.name",
+      "blocks": [
+        { "type": "benefit", "settings": { "numeral": "I", "title": "Lift & Firm" } },
+        { "type": "benefit", "settings": { "numeral": "II", "title": "Restore & Renew" } },
+        { "type": "benefit", "settings": { "numeral": "III", "title": "Drench & Glow" } }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

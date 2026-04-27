@@ -162,18 +162,71 @@
       "name": "Hervorgehobene Kollektion"
     },
     "featured_product": {
-      "name": "Hervorgehobenes Produkt"
+      "name": "Hervorgehobenes Produkt",
+      "use_current_product": "Aktuelles Template-Produkt verwenden",
+      "use_current_product_info": "Auf Produktseiten wird das Seitenprodukt verwendet statt der Auswahl unten.",
+      "image_overlay": "Bild-Overlay",
+      "overlay_tint": "Nur Tönung",
+      "overlay_gradient": "Nur Verlauf",
+      "overlay_both": "Verlauf und Tönung"
+    },
+    "main_product": {
+      "name": "Haupt-Produkt",
+      "badge": "Badge (z. B. Neu)",
+      "show_drag_hint": "Hinweis „Ziehen“ in der Galerie",
+      "use_judgeme_stars": "Judge.me für Sterne (Fallback ausblenden)",
+      "use_judgeme_info": "Judge.me installieren, aktivieren und App-Block oder Snippet hinzufügen. Container: .product-reviews-summary",
+      "show_fallback_stars": "Dekorative Sterne mit Fallback anzeigen",
+      "fallback_review_line": "Fallback-Text (z. B. Bewertung)",
+      "show_product_description": "Volle Produktbeschreibung anzeigen",
+      "hero_description": "Kurzbeschreibung (wenn nicht vollständig)",
+      "chips_header": "Produkt-Chips (manuell)",
+      "chip_1": "Chip 1",
+      "chip_2": "Chip 2",
+      "chip_3": "Chip 3",
+      "option_label": "Label für Variantenzeile",
+      "show_sticky_bar": "Sticky Warenkorb-Leiste",
+      "reassurance_header": "Vertrauenszeile",
+      "reassurance_1": "Spalte 1 (Zeilenumbrüche möglich)",
+      "reassurance_2": "Spalte 2",
+      "reassurance_3": "Spalte 3",
+      "accordion": "Akkordeon"
+    },
+    "product_breadcrumb": {
+      "name": "Produkt-Breadcrumb"
+    },
+    "product_benefits": {
+      "name": "Produktvorteile",
+      "benefit": "Vorteil",
+      "numeral": "Ziffer oder Label"
+    },
+    "product_related": {
+      "name": "Verwandte Produkte",
+      "product_list": "Produkte"
     },
     "ritual_steps": {
       "name": "Ritual-Schritte",
-      "step": "Schritt"
+      "step": "Schritt",
+      "section_background": "Abschnittshintergrund",
+      "bg_cream": "Creme",
+      "bg_white": "Weiß"
     },
     "quote_banner": {
-      "name": "Zitat-Banner"
+      "name": "Zitat-Banner",
+      "overlay_strength": "Overlay-Stärke",
+      "overlay_light": "Hell",
+      "overlay_medium": "Mittel",
+      "overlay_strong": "Stark"
     },
     "testimonials": {
       "name": "Stimmen",
-      "testimonial": "Stimme"
+      "testimonial": "Stimme",
+      "layout": "Layout",
+      "layout_grid": "Raster",
+      "layout_carousel": "Karussell",
+      "section_background": "Abschnittshintergrund",
+      "review_cta_header": "Review-Link (Karussell)",
+      "review_cta_info": "Wird unter dem Karussell angezeigt, wenn Label und URL gesetzt sind."
     },
     "lifestyle_grid": {
       "name": "Lifestyle-Raster"

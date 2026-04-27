@@ -1,20 +1,241 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
+    "breadcrumbs": {
+      "type": "product-breadcrumb",
+      "settings": {}
+    },
     "main": {
       "type": "product",
-      "settings": {}
+      "blocks": {
+        "accordion_promise": {
+          "type": "accordion",
+          "settings": {
+            "heading": "The Promise",
+            "body": "<p>Each formula is crafted with intention. Details are edited per product template in the theme editor.</p>"
+          }
+        },
+        "accordion_use": {
+          "type": "accordion",
+          "settings": {
+            "heading": "How to use",
+            "body": "<p>Apply as directed. Customize this copy for each product template.</p>"
+          }
+        },
+        "accordion_ingredients": {
+          "type": "accordion",
+          "settings": {
+            "heading": "Key ingredients",
+            "body": "<p>Ingredient stories belong here — set per template.</p>"
+          }
+        }
+      },
+      "block_order": ["accordion_promise", "accordion_use", "accordion_ingredients"],
+      "settings": {
+        "eyebrow": "Night Ritual",
+        "tagline": "",
+        "badge": "",
+        "show_drag_hint": true,
+        "use_judgeme_stars": false,
+        "show_fallback_stars": true,
+        "fallback_review_line": "",
+        "show_hero_description": true,
+        "chip_1": "",
+        "chip_2": "",
+        "chip_3": "",
+        "option_label": "Size",
+        "add_to_cart_label": "",
+        "show_sticky_bar": true,
+        "reassurance_1": "Free shipping\nover €80",
+        "reassurance_2": "30-day\nskin promise",
+        "reassurance_3": "Cruelty-free\n& vegan"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "m1": { "type": "phrase", "settings": { "text": "Luxury Skincare" } },
+        "m2": { "type": "phrase", "settings": { "text": "Paris Inspired" } },
+        "m3": { "type": "phrase", "settings": { "text": "Dermatologically Tested" } }
+      },
+      "block_order": ["m1", "m2", "m3"],
+      "settings": { "speed": 28 }
+    },
+    "story": {
+      "type": "featured-product",
+      "settings": {
+        "use_current_product": true,
+        "image_overlay": "gradient",
+        "image_position": "right",
+        "eyebrow": "The Story",
+        "heading": "Beauty is a\nfeeling —",
+        "heading_italic": "not a formula.",
+        "body1": "Customize this editorial block per product template. It uses the current product for price and add to cart when enabled.",
+        "body2": "",
+        "stat_1_label": "Visible from",
+        "stat_1_value": "Day one",
+        "stat_2_label": "Clinically",
+        "stat_2_value": "Tested",
+        "stat_3_label": "From",
+        "stat_3_value": "—",
+        "cta_label": "Add to Cart"
+      }
+    },
+    "benefits": {
+      "type": "product-benefits",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "numeral": "I",
+            "title": "First promise",
+            "body": "Describe a benefit — edit per template."
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "numeral": "II",
+            "title": "Second promise",
+            "body": "Describe a benefit — edit per template."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "numeral": "III",
+            "title": "Third promise",
+            "body": "Describe a benefit — edit per template."
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": {
+        "eyebrow": "What You Will Feel",
+        "heading": "Three promises",
+        "heading_italic": "in one ritual."
+      }
+    },
+    "quote": {
+      "type": "quote-banner",
+      "settings": {
+        "quote": "Beautiful skin begins with a beautiful ritual.",
+        "author": "Valentina",
+        "overlay_strength": "medium"
+      }
+    },
+    "ritual": {
+      "type": "ritual-steps",
+      "blocks": {
+        "r1": {
+          "type": "step",
+          "settings": {
+            "number": "01",
+            "title": "Cleanse",
+            "body": "Begin with presence. Customize steps per template."
+          }
+        },
+        "r2": {
+          "type": "step",
+          "settings": {
+            "number": "02",
+            "title": "Treat",
+            "body": "Press or sweep your formula as intended."
+          }
+        },
+        "r3": {
+          "type": "step",
+          "settings": {
+            "number": "03",
+            "title": "Nourish",
+            "body": "Seal in moisture and intention."
+          }
+        },
+        "r4": {
+          "type": "step",
+          "settings": {
+            "number": "04",
+            "title": "Rest",
+            "body": "Let the ritual complete itself overnight."
+          }
+        }
+      },
+      "block_order": ["r1", "r2", "r3", "r4"],
+      "settings": {
+        "eyebrow": "Application",
+        "heading": "Your ritual",
+        "heading_italic": "steps.",
+        "section_background": "white"
+      }
+    },
+    "voices": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Customize testimonials per product template.",
+            "author": "Name",
+            "location": "City"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Add more slides for carousel mode.",
+            "author": "Name",
+            "location": "City"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Judge.me app blocks can be added below this section.",
+            "author": "Name",
+            "location": "City"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "layout": "carousel",
+        "section_background": "cream",
+        "eyebrow": "She Says",
+        "heading": "Words that feel",
+        "heading_italic": "like velvet.",
+        "review_cta_label": "",
+        "review_cta_url": ""
+      }
+    },
+    "related": {
+      "type": "product-related",
+      "settings": {
+        "eyebrow": "Complete Your Ritual",
+        "heading": "You may also",
+        "heading_italic": "love."
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Private Circle",
+        "heading": "Join the women who",
+        "heading_italic": "feel more.",
+        "body": "First access to new rituals and exclusive moments — curated for you.",
+        "button_label": "Join Us",
+        "footnote": "No noise. Only beauty."
+      }
     }
   },
   "order": [
-    "main"
+    "breadcrumbs",
+    "main",
+    "marquee",
+    "story",
+    "benefits",
+    "quote",
+    "ritual",
+    "voices",
+    "related",
+    "newsletter"
   ]
 }

@@ -1,4 +1,11 @@
-<section class="py-32 px-6 md:px-10 bg-v-cream" data-section-type="ritual-steps">
+{%- liquid
+  if section.settings.section_background == 'white'
+    assign rs_bg = 'bg-white border-t border-black/5'
+  else
+    assign rs_bg = 'bg-v-cream'
+  endif
+-%}
+<section class="py-32 px-6 md:px-10 {{ rs_bg }}" data-section-type="ritual-steps">
   <div class="max-w-screen-xl mx-auto">
 
     <div class="text-center mb-20">
@@ -75,6 +82,16 @@
       "id": "heading_italic",
       "label": "t:labels.heading_italic",
       "default": "yourself."
+    },
+    {
+      "type": "select",
+      "id": "section_background",
+      "label": "t:sections.ritual_steps.section_background",
+      "options": [
+        { "value": "cream", "label": "t:sections.ritual_steps.bg_cream" },
+        { "value": "white", "label": "t:sections.ritual_steps.bg_white" }
+      ],
+      "default": "cream"
     }
   ],
   "blocks": [

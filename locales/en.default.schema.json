@@ -162,18 +162,71 @@
       "name": "Featured collection"
     },
     "featured_product": {
-      "name": "Featured product"
+      "name": "Featured product",
+      "use_current_product": "Use current template product",
+      "use_current_product_info": "On product templates, uses the page product instead of the picker below.",
+      "image_overlay": "Image overlay",
+      "overlay_tint": "Tint only",
+      "overlay_gradient": "Gradient only",
+      "overlay_both": "Gradient and tint"
+    },
+    "main_product": {
+      "name": "Main product",
+      "badge": "Badge (e.g. New)",
+      "show_drag_hint": "Show gallery drag hint",
+      "use_judgeme_stars": "Use Judge.me for stars (hide fallback)",
+      "use_judgeme_info": "Install Judge.me, then enable and add their app block or snippet. Wrapper: .product-reviews-summary",
+      "show_fallback_stars": "Show decorative star icons with fallback",
+      "fallback_review_line": "Fallback review line (e.g. rating text)",
+      "show_product_description": "Show full product description",
+      "hero_description": "Short description (if not using full description)",
+      "chips_header": "Product chips (manual)",
+      "chip_1": "Chip 1",
+      "chip_2": "Chip 2",
+      "chip_3": "Chip 3",
+      "option_label": "Variant row label",
+      "show_sticky_bar": "Show sticky add-to-cart bar",
+      "reassurance_header": "Reassurance strip",
+      "reassurance_1": "Column 1 (use line breaks)",
+      "reassurance_2": "Column 2",
+      "reassurance_3": "Column 3",
+      "accordion": "Accordion"
+    },
+    "product_breadcrumb": {
+      "name": "Product breadcrumb"
+    },
+    "product_benefits": {
+      "name": "Product benefits",
+      "benefit": "Benefit",
+      "numeral": "Numeral or label"
+    },
+    "product_related": {
+      "name": "Related products",
+      "product_list": "Products"
     },
     "ritual_steps": {
       "name": "Ritual steps",
-      "step": "Step"
+      "step": "Step",
+      "section_background": "Section background",
+      "bg_cream": "Cream",
+      "bg_white": "White"
     },
     "quote_banner": {
-      "name": "Quote banner"
+      "name": "Quote banner",
+      "overlay_strength": "Overlay darkness",
+      "overlay_light": "Light",
+      "overlay_medium": "Medium",
+      "overlay_strong": "Strong"
     },
     "testimonials": {
       "name": "Testimonials",
-      "testimonial": "Testimonial"
+      "testimonial": "Testimonial",
+      "layout": "Layout",
+      "layout_grid": "Grid",
+      "layout_carousel": "Carousel",
+      "section_background": "Section background",
+      "review_cta_header": "Review link (carousel)",
+      "review_cta_info": "Shown below the carousel when both label and URL are set."
     },
     "lifestyle_grid": {
       "name": "Lifestyle grid"

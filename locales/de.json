@@ -58,6 +58,11 @@
   "products": {
     "shop_now": "Jetzt kaufen",
     "add_to_cart": "In den Warenkorb",
+    "add_to_ritual": "Zum Ritual hinzufügen",
+    "drag": "Ziehen",
+    "gallery_aria": "Produktbilder",
+    "thumbnails_aria": "Vorschaubilder",
+    "no_images": "Noch keine Bilder",
     "sold_out": "Ausverkauft",
     "badge": {
       "bestseller": "Bestseller",
@@ -76,6 +81,13 @@
     "success": "Vielen Dank. Du bist auf der Liste."
   },
   "sections": {
+    "product_breadcrumb": {
+      "home": "Start",
+      "nav_aria": "Brotkrumen"
+    },
+    "product_related": {
+      "empty": "Wähle verwandte Produkte in den Abschnittseinstellungen."
+    },
     "hero": {
       "scroll": "Scrollen"
     },

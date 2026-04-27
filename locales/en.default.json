@@ -58,6 +58,11 @@
   "products": {
     "shop_now": "Shop Now",
     "add_to_cart": "Add to Cart",
+    "add_to_ritual": "Add to Ritual",
+    "drag": "Drag",
+    "gallery_aria": "product images",
+    "thumbnails_aria": "Image thumbnails",
+    "no_images": "No images yet",
     "sold_out": "Sold Out",
     "badge": {
       "bestseller": "Bestseller",
@@ -76,6 +81,13 @@
     "success": "Thank you. You're on the list."
   },
   "sections": {
+    "product_breadcrumb": {
+      "home": "Home",
+      "nav_aria": "Breadcrumb"
+    },
+    "product_related": {
+      "empty": "Select related products in the section settings."
+    },
     "hero": {
       "scroll": "Scroll"
     },

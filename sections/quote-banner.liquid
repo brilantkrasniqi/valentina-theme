@@ -17,7 +17,18 @@
     <div class="absolute inset-0 bg-gradient-to-br from-v-rose-light to-v-rose"></div>
   {%- endif -%}
 
-  <div class="absolute inset-0 bg-black/30"></div>
+  {%- liquid
+    assign strength = section.settings.overlay_strength | default: 'medium'
+    case strength
+      when 'light'
+        assign overlay_class = 'bg-black/20'
+      when 'strong'
+        assign overlay_class = 'bg-black/50'
+      else
+        assign overlay_class = 'bg-black/30'
+    endcase
+  -%}
+  <div class="absolute inset-0 {{ overlay_class }}"></div>
 
   <div class="relative z-10 text-center text-white px-6 max-w-3xl">
     {%- if section.settings.quote != blank -%}
@@ -58,6 +69,17 @@
       "id": "author",
       "label": "t:labels.author",
       "default": "Valentina, Founder"
+    },
+    {
+      "type": "select",
+      "id": "overlay_strength",
+      "label": "t:sections.quote_banner.overlay_strength",
+      "options": [
+        { "value": "light", "label": "t:sections.quote_banner.overlay_light" },
+        { "value": "medium", "label": "t:sections.quote_banner.overlay_medium" },
+        { "value": "strong", "label": "t:sections.quote_banner.overlay_strong" }
+      ],
+      "default": "medium"
     }
   ],
   "presets": [
