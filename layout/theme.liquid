@@ -27,26 +27,8 @@
     {%- # Splide carousel CSS (used by marquee + future sliders) -%}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide-core.min.css">
 
-    {%- # Tailwind CDN with brand color + font configuration. CDN build is fine for theme prototyping; can be replaced with a compiled build later. -%}
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'v-rose':       '{{ settings.color_rose }}',
-              'v-rose-light': '{{ settings.color_rose_light }}',
-              'v-rose-dark':  '{{ settings.color_rose_dark }}',
-              'v-cream':      '{{ settings.color_cream }}',
-            },
-            fontFamily: {
-              serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-              sans:  ['{{ settings.type_body_font.family }}', '"{{ settings.type_body_font.fallback_families }}"', 'system-ui', 'sans-serif'],
-            },
-          },
-        },
-      };
-    </script>
+    {%- # Tailwind (compiled; brand tokens from snippets/css-variables.liquid). Rebuild: npm run build in theme root. -%}
+    {{ 'tailwind.css' | asset_url | stylesheet_tag }}
 
     {%- # Splide JS + auto-scroll extension (deferred so it doesn't block paint) -%}
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>

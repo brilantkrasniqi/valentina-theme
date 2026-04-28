@@ -1,3 +1,5 @@
+node_modules/
+
 # This file contains a list of files that will be excluded from Shopify CLI
 # operations such as push, pull, dev, etc.
 #

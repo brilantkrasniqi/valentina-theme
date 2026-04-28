@@ -40,6 +40,12 @@
     --color-rose-dark: {{ settings.color_rose_dark }};
     --color-cream: {{ settings.color_cream }};
 
+    {%- comment -%} Space-separated RGB for Tailwind `bg-v-rose/5` etc. {%- endcomment -%}
+    --color-rose-channels: {{ settings.color_rose | color_extract: 'red' }} {{ settings.color_rose | color_extract: 'green' }} {{ settings.color_rose | color_extract: 'blue' }};
+    --color-rose-light-channels: {{ settings.color_rose_light | color_extract: 'red' }} {{ settings.color_rose_light | color_extract: 'green' }} {{ settings.color_rose_light | color_extract: 'blue' }};
+    --color-rose-dark-channels: {{ settings.color_rose_dark | color_extract: 'red' }} {{ settings.color_rose_dark | color_extract: 'green' }} {{ settings.color_rose_dark | color_extract: 'blue' }};
+    --color-cream-channels: {{ settings.color_cream | color_extract: 'red' }} {{ settings.color_cream | color_extract: 'green' }} {{ settings.color_cream | color_extract: 'blue' }};
+
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
   }
 {% endstyle %}

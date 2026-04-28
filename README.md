@@ -24,6 +24,17 @@ If you use VS Code:
 
 - [Shopify Liquid VS Code Extension](https://shopify.dev/docs/storefronts/themes/tools/shopify-liquid-vscode) – provides syntax highlighting, linting, inline documentation, and auto-completion specifically designed for Liquid templates
 
+For stylesheet changes, use **Node.js (LTS)** to rebuild Tailwind:
+
+```bash
+cd Valentina   # theme root containing package.json
+npm install
+npm run build  # writes assets/tailwind.css; run after editing Liquid classes
+npm run watch  # optional: rebuild on save while developing
+```
+
+The committed `assets/tailwind.css` is valid for upload without running Node. To **zip the theme for the admin uploader**, zip the `Valentina` folder contents (include `assets/tailwind.css`), and omit `node_modules/`.
+
 ### Clone
 
 Clone this repository using Git or Shopify CLI:

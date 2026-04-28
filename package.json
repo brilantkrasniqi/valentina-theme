@@ -1,0 +1,11 @@
+{
+  "name": "valentina-theme",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --minify",
+    "watch": "tailwindcss -i ./src/tailwind.css -o ./assets/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
